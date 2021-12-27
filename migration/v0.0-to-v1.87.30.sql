@@ -1,0 +1,1 @@
+UPDATE `version` SET `version`='1.87.30' WHERE `version`='0.0';

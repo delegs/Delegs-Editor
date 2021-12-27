@@ -1,0 +1,1054 @@
+openapi: 3.0.3
+info:
+  title: delegs-API
+  description: Dokumentation der API vom delegs-Editor
+  version: 1.0.0
+servers:
+  - url: '/delegseditor'
+paths:
+
+  /signwritingeditor/signwritingservice:
+    description: GWT interne API. Kann nicht von außen benutzt werden.
+
+  /signwritingeditor/signimages:
+    get:
+      description: Liefert das Bild zu einer Verschriftlichung als PNG
+      parameters:
+        - $ref: "#/components/parameters/upperId"
+        - $ref: "#/components/parameters/lowerId"
+        - $ref: "#/components/parameters/signLocale"
+        - $ref: "#/components/parameters/scale"
+        - $ref: "#/components/parameters/source"
+        - $ref: "#/components/parameters/signdata"
+      responses:
+        200:
+          $ref: "#/components/responses/Bild"
+        404:
+          description: Wird zurückgegeben, wenn keine Verschriftlichung gefunden wurde
+          content:
+            application/text:
+              schema:
+                type: string
+                example: Image for sign not found
+        500:
+          description: Wird zurückgegeben, wenn ein technischer Fehler auf dem Server auftritt
+          content:
+            application/html:
+              schema:
+                type: string
+
+  /signwritingeditor/symbolimages:
+    get:
+      description: Liefert das (optional gefärbte) Bild eines Symboles
+      parameters:
+        - $ref: "#/components/parameters/symboldata"
+        - $ref: "#/components/parameters/scale"
+        - name: colorFormerBlack
+          required: false
+          in: query
+          description: Gibt an welche Farbe das Bild an allen schwarzen Stellen haben soll
+          schema:
+            type: string
+            example: FF0000
+            description: Der hex-Wert der Farbe
+        - name: colorFormerWhite
+          required: false
+          in: query
+          description: Gibt an welche Farbe das Bild an allen weißen Stellen haben soll
+          schema:
+            type: string
+            example: FF00FF
+            description: Der hex-Wert der Farbe
+      responses:
+        200:
+          $ref: "#/components/responses/Bild"
+        404:
+          description: Wird zurückgegeben, wenn kein Bild gefunden wurde
+        500:
+          description: Wird zurückgegeben, wenn ein technischer Fehler auf dem Server auftritt
+
+  /signwritingeditor/signitems:
+    get:
+      description: Liefert zu einem Begriff oder Prefix eine Liste mit allen Verschriftlichungen und deren Breite
+      parameters:
+        - name: word
+          description: Das Wort, für die alle Verschriftlichungen gesucht werden sollen
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Apfelkuchen
+        - name: prefix
+          description: Das Prefix, für das alle Verschriftlichungen, die mit dem Prefix beginnen, gefunden werden sollen
+          in: query
+          schema:
+            type: string
+            example: Apf
+        - name: count
+          description: Gibt an, wie viele Verschriftlichungen maximal gesucht werden sollen, wenn mit einem Prefix gesucht wird
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: callback
+          description: Optionaler Json-Key unter dem die Antwort ins Json gepackt werden soll
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "treffer: "
+      responses:
+        200:
+          $ref: "#/components/responses/SignItems"
+        404:
+          description: Wird zurückgegeben, wenn keine Verschriftlichungen gefunden wurden
+        500:
+          description: Wird zurückgegeben, wenn ein technischer Fehler auf dem Server auftritt
+
+  /signwritingeditor/dictionary:
+    get:
+      description: Liefert je nach angegebener Operation die dafür entsprechende Antwort
+      parameters:
+        - name: operation
+          description: >
+            Die auszuführende Anweisung
+              * `getSign` - "Liefert eine bestimmte Gebärde"
+              * `findEntries` - "Liefert alle Gebärden eines bestimmten Gebärdensprachlexikons"
+              * `getSignLocales` - "Liefert alle Locales"
+              * `getEntriesSinceRevision` - "Liefert alle Lexikoneinträge eines bestimmten Lexikons seit einer bestimmten Revision"
+              * `getDeletedEntriesSinceRevision` - "Liefert alle gelöschten Lexikoneinträge eines bestimmten Lexikons seit einer bestimmten Revision"
+              * `getLocalizedAppDescriptions` - "Liefert alle Übersetzungen des Beschreibungstextes für SignBook"
+              * `getDbRevision` - "Liefert die aktuelle Revisionsnummer der Datenbank"
+              * `login` - "Loggt einen Benutzer ein"
+
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - getSign
+              - findEntries
+              - getSignLocales
+              - getEntriesSinceRevision
+              - getDeletedEntriesSinceRevision
+              - getLocalizedAppDescriptions
+              - getDbRevision
+              - saveSign
+              - login
+        - name: signLocale
+          description: Die Locale der Gebärde. Verwendet in den Operationen getSign, findEntries, getEntriesSinceRevision, getDeletedEntriesSinceRevision
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASL
+              - BSL
+              - DGS
+              - LIBRAS
+              - LSE
+              - LSF
+              - LSFB
+              - LSM
+              - LSQ
+              - PJM
+              - SZJ
+        - name: upperId
+          description: UpperId der Gebärde. Verwendet in den Operationen getSign
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: lowerId
+          description: LowerId der Gebärde. Verwendet in den Operationen getSign
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/source"
+        - name: revision
+          description: Revisionsnummer eines Lexikoneintrags. Verwendet in den Operationen getEntriesSinceRevision, getDeletedEntriesSinceRevision
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: username
+          description: Name des Benutzers. Verwendet in den Operationen login
+          in: query
+          schema:
+            type: string
+            example: adent
+        - name: password
+          description: Passwort des Benutzers. Verwendet in den Operationen login
+          in: query
+          schema:
+            type: string
+            example: bar
+      responses:
+        200:
+          description: Liefert die Antwort der angegebenen Operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    description: Liefert alle Gebärden eines bestimmten Gebärdensprachlexikons (findEntries, getEntriesSinceRevision, getDeletedEntriesSinceRevision)
+                    required:
+                      - entries
+                      - revision
+                    properties:
+                      entries:
+                        description: Liste aller Wörter und dazugehörigen Gebärden
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - word
+                            - upperIds
+                          properties:
+                            word:
+                              description: Der Begriff des Lexikoneintrages
+                              type: string
+                            upperIds:
+                              description: Liste aller Gebärden für den Begriff
+                              type: array
+                              items:
+                                type: integer
+                                format: int64
+                      revision:
+                        description: Die aktuelle Revision
+                        type: integer
+                        format: int64
+                  - type: object
+                    description: Liefert eine bestimmte Gebärde (getSign)
+                    required:
+                      - upperId
+                      - lowerId
+                      - signLocaleShortForm
+                      - signLocaleLongForm
+                      - source
+                      - width
+                      - symbols
+                      - mdt
+                    properties:
+                      upperId:
+                        description: UpperId der Gebärde
+                        type: integer
+                        format: int64
+                      lowerId:
+                        description: Begriff der Gebärde
+                        type: string
+                      signLocaleShortForm:
+                        description: Locale der Gebärde (Kurzform)
+                        type: string
+                        enum:
+                          - ASL
+                          - BSL
+                          - DGS
+                          - LIBRAS
+                          - LSE
+                          - LSF
+                          - LSFB
+                          - LSM
+                          - LSQ
+                          - PJM
+                          - SZJ
+                      signLocaleLongForm:
+                        description: Locale der Gebärde (Langform)
+                        type: string
+                        enum:
+                          - American Sign Language
+                          - British Sign Language
+                          - Deutsche Gebärdensprache
+                          - Língua Brasileira de Sinais
+                          - Lengua de Signos Española
+                          - Langue des Signes Française
+                          - La Langue des Signes de Belgique Francophone
+                          - Lingwi tas-Snjali Maltin
+                          - Langue des Signes Québécoise
+                          - Polski Jezyk Migowy
+                          - Slovenski Znakovni Jezik
+                          - International Sign
+                          - Langue des signes tunisienne
+                          - Deutschschweizer Gebärdensprache
+                      source:
+                        description: Ursprung der Gebärde
+                        type: string
+                        enum:
+                          - IMPORTED
+                          - DELEGS
+                          - IMPORTED_BUT_OVERWRITTEN_BY_DELEGS
+                          - UNKNOWN
+                          - SYSTEM
+                          - DELEGS_LOCAL
+                      width:
+                        description: Gesamtbreite der Gebärde
+                        type: integer
+                      symbols:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - isaId
+                            - x
+                            - y
+                            - z
+                            - width
+                            - height
+                          properties:
+                            iswaId:
+                              description: ISWA-Id des Symbols
+                              type: string
+                            x:
+                              description: X-Koordinate des Symbols in der Verschriftlichung
+                              type: string
+                            y:
+                              description: Y-Koordinate des Symbols in der Verschriftlichung
+                              type: string
+                            z:
+                              description: Z-Koordinate des Symbols in der Verschriftlichung
+                              type: string
+                            width:
+                              description: Breite des Symbols
+                              type: string
+                            height:
+                              description: Höhe des Symboles
+                              type: string
+                      mdt:
+                        description: Veränderungsdatum der Gebärde
+                        type: string
+                      comment:
+                        description: Kommentare zu der Gebärde
+                        type: string
+                  - type: array
+                    description: Liefert alle Locales (getSignLocales)
+                    items:
+                      type: object
+                      properties:
+                        localeId:
+                          $ref: "#/components/schemas/SignLocale"
+                        description:
+                          type: string
+                  - type: array
+                    description: Liefert alle Übersetzungen des Beschreibungstextes für SignBook
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: string
+                        description: Sprache, in welcher der Text übersetzt ist
+                  - type: array
+                    description: Liefert die aktuelle Revisionsnummer der Datenbank
+                    items:
+                      type: object
+                      properties:
+                        dbRevision:
+                          type: string
+                          description: Die Revisionsnummer der Datenbank für Signbook als String
+                          example: 1
+                  - type: array
+                    description: Liefert Login Informationen eines Benutzers
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          description: Benutzername
+                        firstName:
+                          type: string
+                          description: Vorname
+                        lastName:
+                          type: string
+                          description: Nachname
+                        isAdmin:
+                          type: string
+                          description: Gibt an, ob der Benutzer ein Administrator ist
+                          example: true
+                        sessionKey:
+                          type: string
+                          description: der Schlüssel der Session
+                        expiryTime:
+                          type: string
+                          description: Gültigkeitsdauer der Session in ms
+        400:
+          $ref: "#/components/responses/badRequest"
+
+  /signwritingeditor/signwritingimage:
+    get:
+      description: Liefert das Bild zu einem FSW Code
+      parameters:
+        - name: symbols
+          description: FSW Code, zu dem das Bild erstellt werden soll
+          in: query
+          required: true
+          schema:
+            type: string
+            example: AS10011S10019S2e704S2e748M525x535S2e748483x510S10011501x466
+        - $ref: "#/components/parameters/scale"
+        - name: transparent
+          description: Gibt an, ob der Hintergrund des Bildes transparent sein soll
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          $ref: "#/components/responses/Bild"
+        400:
+          $ref: "#/components/responses/badRequest"
+
+  /signwritingeditor/signlocales:
+    get:
+      description: Liefert alle Locales
+      responses:
+        200:
+          description: Liefert eine Liste aller Locales
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    localeId:
+                      description: Kurzform der Locale
+                      type: string
+                      enum:
+                        - ASL
+                        - BSL
+                        - DGS
+                        - LIBRAS
+                        - LSE
+                        - LSF
+                        - LSFB
+                        - LSM
+                        - LSQ
+                        - PJM
+                        - SZJ
+                        - IS
+                        - TSE
+                        - DSGS
+                    description:
+                      description: Langform der Locale
+                      type: string
+                      example: "International Sign (Kurzform: IS)"
+
+  /signwritingeditor/documents:
+    get:
+      description: Liefert den Inhalt eines oder mehrere Dokumente
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/password"
+        - $ref: "#/components/parameters/folderId"
+        - $ref: "#/components/parameters/documentId"
+        - name: action
+          description: Gibt die Art der Abfrage an
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - getdocumentsinfolder
+              - getdocument
+      responses:
+        200:
+          description: Je nach action das Dokument bzw. die Dokumente
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: xml
+        401:
+          description: Der angegebene Benutzer hat keine Berechtigung für das angegebene Verzeichnis
+        404:
+          description: Das angegebene Verzeichnis wurde nicht gefunden
+
+  /signwritingeditor/formular:
+    get:
+      description: Liefert den Inhalt aller Dokumente vom Typ TemplateItem eines bestimmten Ordners
+      parameters:
+        - name: deepLink
+          description: Link zum Ordner, dessen Dokumente zrückgegeben werden sollen
+          in: query
+          required: true
+          schema:
+            type: string
+            example: https://subdomain.delegsurl.de/delegseditor/Foo/Bar/
+      responses:
+        200:
+          description: Der Inhalt der Dokumente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    Filmproduzent:
+                      type: string
+                    CC / Ort:
+                      type: string
+                    Aufnahmedatum:
+                      type: string
+                    Videourl:
+                      type: string
+                    Urpsrung:
+                      type: string
+                    Bedeutungsnummer:
+                      type: string
+                    Sonstiges:
+                      type: string
+                    Verwendungskontext:
+                      type: string
+                    Sprache:
+                      type: string
+                    Wiktionary:
+                      type: string
+                    Empfehlung:
+                      type: string
+                    Fachbegriff:
+                      type: string
+                    Region:
+                      type: string
+                    Wikpedia:
+                      type: string
+                    Gebaerdenschtift:
+                      type: object
+                      properties:
+                        Url:
+                          type: string
+                        SymbolIds:
+                          type: array
+                          items:
+                            type: string
+                    Fachgebiet:
+                      type: string
+                    Id:
+                      type: string
+                    Gebaerdender:
+                      type: string
+                    Hochladedatum:
+                      type: string
+        204:
+          description: Es wurden keine Dokumente gefunden
+        400:
+          description: Der angegebene Raum aus dem Deeplink konnte nicht gefunden werden
+
+  /signwritingeditor/excel:
+    post:
+      description: Importiert Lexikoneinträge und deren Videos für Sign2MINT
+      requestBody:
+        description: Form Data Objekt mit angehängter Excel Datei und den Videos im .zip Format (optional)
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                excel-file:
+                  description: Die Excel Datei mit den Lexikoneinträgen
+                  type: array
+                  format: binary
+                zip-file:
+                  description: Die .zip Datei mit den Videos
+                  type: array
+                  format: binary
+      responses:
+        200:
+          description: Das Ergebnis des Excel Imports
+          content:
+            application/text:
+              schema:
+                type: string
+
+  /signwritingeditor/tutorials:
+    get:
+      description: Liefert Erklärvideos zu bestimmten Themen aus dem Hilfebereich
+      parameters:
+        - name: tutorialname
+          description: Name des Erklärvideos
+          required: true
+          in: query
+          schema:
+            type: string
+            example: DokumentAnlegen.mp4
+      responses:
+        200:
+          description: Das Erklärvideo
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Das angegebene Erklärvideo konnte nicht gefunden werden
+          content:
+            application/text:
+              schema:
+                type: string
+                example: tutorial not found
+
+  /signwritingeditor/pdf:
+    get:
+      description: Liefert PDF Dokumente von Lehrmaterialien
+      parameters:
+        - name: lehrmaterialie
+          description: Name der Lehrmaterialie
+          required: true
+          in: query
+          schema:
+            type: string
+            example: Lektion1.pdf
+      responses:
+        200:
+          description: Die Lehrmaterialie
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Die angegebene Pdf Datei konnte nicht gefunden werden
+          content:
+            application/text:
+              schema:
+                type: string
+                example: pdf not found
+
+  /signwritingeditor/video-cache:
+    get:
+      description: Liefert Videos aus dem Video-Cache
+      parameters:
+        - name: filename
+          description: Name des Videos
+          required: true
+          in: query
+          schema:
+            type: string
+            example: FooBar.mp4
+      responses:
+        200:
+          description: Das Video
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Das angegebene Video konnte nicht gefunden werden
+          content:
+            application/text:
+              schema:
+                type: string
+                example: video not found
+
+  /signwritingeditor/captchaImg:
+    get:
+      description: Liefert ein Captcha in Form eines Bildes
+      responses:
+        200:
+          $ref: "#/components/responses/Bild"
+
+  /signwritingeditor/emailAuthentification:
+    get:
+      description: Führt die Aktivierung für einen neuen Benutzer durch
+      parameters:
+        - name: validationkey
+          description: Der Validierungsschlüssel
+          required: true
+          in: query
+          schema:
+            type: string
+            example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        - name: username
+          description: Name des Benutzers
+          required: true
+          in: query
+          schema:
+            type: string
+            example: adent
+      responses:
+        200:
+          description: Rückmeldung, dass die Aktivierung erfolgreich war
+          content:
+            text/plain:
+              schema:
+                type: string
+        400:
+          description: Rückmeldung, dass die Aktivierung fehlgeschlagen ist
+          content:
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Rückmeldung, dass die Aktivierung aufgrund eines technischen Problems nicht durchgeführt werden konnte
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /signwritingeditor/changePassword:
+    get:
+      description: Liefert eine HTML Seite zum Ändern des Passworts eines Benutzers
+      parameters:
+        - name: username
+          description: Name des Benutzers, dessen Passwort geändert werden soll
+          required: true
+          in: query
+          schema:
+            type: string
+            example: adent
+        - name: validationkey
+          description: Validierungsschlüssel des Benutzers
+          required: true
+          in: query
+          schema:
+            type: string
+            example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      responses:
+        200:
+          description: die generierte HTML Seite zum Ändern des Passworts
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      description: Ändert das Passwort eines Benutzers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: Das neue Passwort
+                password_repeat:
+                  type: string
+                  description: Wiederholung des neuen Passworts
+                username:
+                  type: string
+                  description: Name des Benutzers, dessen Passwort geändert werden soll
+                validationkey:
+                  type: string
+                  description: Validierungsschlüssel des Benutzers
+      responses:
+        200:
+          description: Eine HTML Seite, welche zurück gibt, ob das Ändern des Passworts erfolgreich war.
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /signwritingeditor/toSign:
+    get:
+      description: Liefert den Hinweis, dass zur Nutzung dieses Endpunkts Post benutzt werden muss
+      responses:
+        200:
+          description: Der Hinweistext
+          content:
+            text/plain:
+              schema:
+                type: string
+    post:
+      description: Liefert alle Gebärden, deren Bezeichnung ein bestimmtes Suchwort enthält
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Die Suchbegriffe, gertrennt durch einen Doppelpunkt
+              type: string
+              example: "Biol:Math:Geo"
+      responses:
+        200:
+          description: Die gefundenen Gebärden
+          content:
+            application/json:
+              schema:
+                items:
+                  description: Ein Objekt, das aus einem der Suchparameter und den dazu gefundenen Gebärden besteht.
+                  type: object
+                  additionalProperties:
+                    description: Liste mit Suchergebnissen zu einem Suchbegriff
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - revision
+                        - width
+                      properties:
+                        id:
+                          type: object
+                          required:
+                            - lowerId
+                            - upperId
+                            - source
+                            - language
+                          properties:
+                            lowerId:
+                              description: LowerId der Gebärde
+                              type: integer
+                              format: int64
+                            upperId:
+                              description: UpperId der Gebärde
+                              type: integer
+                              format: int64
+                            source:
+                              description: Ursprung der Gebärde
+                              type: string
+                              enum:
+                                - IMPORTED
+                                - DELEGS
+                                - IMPORTED_BUT_OVERWRITTEN_BY_DELEGS
+                                - UNKNOWN
+                                - SYSTEM
+                                - DELEGS_LOCAL
+                            language:
+                              description: Die Locale der Gebärde
+                              type: string
+                              enum:
+                                - ASL
+                                - BSL
+                                - DGS
+                                - LIBRAS
+                                - LSE
+                                - LSF
+                                - LSFB
+                                - LSM
+                                - LSQ
+                                - PJM
+                                - SZJ
+                        revision:
+                          description: Die Revision der Gebärde
+                          type: integer
+                          format: int64
+                        width:
+                          type: integer
+
+  /signwritingeditor/errorImage:
+    get:
+      description: Liefert eine Fehlerbild mit einem Fehlertext
+      parameters:
+        - name: error-message
+          description: Die Fehlernachricht
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Das Fehlerbild
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+
+  /DelegsVideoSupplierServlet/{videoname}:
+    head:
+      description: Liefert das im Videonamen angegebene Video
+      parameters:
+        - name: videoname
+          in: path
+          required: true
+          schema:
+            type: string
+            example: W00015_Quantendynamik.mp4
+      responses:
+        200:
+          description: Liefert Header mit Informationen zum angegebenen Video
+    get:
+      description: Liefert das im Videonamen angegebene Video
+      parameters:
+        - name: videoname
+          in: path
+          required: true
+          schema:
+            type: string
+            example: W00015_Quantendynamik.mp4
+      responses:
+        200:
+          description: Das Video
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /DelegsVideoSupplierServlet:
+    post:
+      description: Lädt das übergebene Video hoch
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: array
+                  format: binary
+      responses:
+        200:
+          description: Die Video Url
+          content:
+            application/text:
+              schema:
+                type: string
+
+components:
+  schemas:
+    SignItem:
+      description: SignItem
+      type: object
+      required:
+        - id
+        - word
+        - width
+      properties:
+        id:
+          type: integer
+          format: int64
+        word:
+          type: string
+        width:
+          type: integer
+
+    SignItems:
+      type: array
+      items:
+        $ref: "#/components/schemas/SignItem"
+
+    SignLocale:
+      type: string
+      enum:
+        - ASL
+        - BSL
+        - DGS
+        - LIBRAS
+        - LSE
+        - LSF
+        - LSFB
+        - LSM
+        - LSQ
+        - PJM
+        - SZJ
+        - IS
+        - TSE
+        - DSGS
+  parameters:
+    username:
+      name: username
+      description: Benutername
+      in: query
+      schema:
+        type: string
+        example: foo
+    password:
+      name: password
+      description: Passwort
+      in: query
+      schema:
+        type: string
+        example: bar
+    upperId:
+      name: upperId
+      required: false
+      description: UpperId der Gebärde
+      in: query
+      schema:
+        type: integer
+        format: int64
+    lowerId:
+      name: lowerId
+      required: false
+      description: LowerId der Gebärde
+      in: query
+      schema:
+        type: integer
+        format: int64
+    signLocale:
+      name: signLocale
+      in: query
+      required: false
+      description: Die Locale der Gebärde
+      schema:
+        $ref: "#/components/schemas/SignLocale"
+    scale:
+      name: scale
+      description: Skalierungsfaktor
+      in: query
+      required: true
+      schema:
+        type: number
+        default: 0
+        example: 2.8
+        maximum: 4
+        minimum: 0
+    source:
+      name: source
+      required: false
+      description: Ursprung der Gebärde. Verwendet in den Operationen getSign
+      in: query
+      schema:
+        type: string
+        enum:
+          - IMPORTED
+          - DELEGS
+          - IMPORTED_BUT_OVERWRITTEN_BY_DELEGS
+          - UNKNOWN
+          - SYSTEM
+          - DELEGS_LOCAL
+    signdata:
+      name: signdata
+      required: false
+      description: Kodierte Verschriftlichung nach dem Schema [identifier][position][rotation][fill]. Wenn dieser Parameter spezifiziert ist, müssen die anderen nicht angegeben werden.
+      example: s20600x42y83z6r000000wFFFFF, mit identifier s20600, position x42y83z6, rotation r000000 und fill wFFFFFF
+      in: query
+      schema:
+        type: string
+    symboldata:
+      name: symboldata
+      required: true
+      description: SymbolId der Gebärde
+      in: query
+      schema:
+        type: string
+        example: 01-05-021-01-02-08
+    folderId:
+      name: folderId
+      description: Id eines Ordners
+      in: query
+      schema:
+        type: string
+        example: 1337-42
+    documentId:
+      name: documentId
+      description: Id eines Dokuments
+      in: query
+      schema:
+        type: string
+        example: 24-25
+
+  responses:
+    badRequest:
+      description: Liefert im Fehlerfall ein leeres Objekt
+      content:
+        application/json:
+          schema:
+            type: object
+            description: Ein leeres Objekt
+    Bild:
+      description: Das Bild
+      content:
+        image/png:
+          schema:
+            type: string
+            format: binary
+    SignItems:
+      description: Liste mit allen SIgnItems
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SignItems"
+

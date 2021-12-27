@@ -1,0 +1,104 @@
+# Delegs and gwt specific
+.gwt/
+.gwt-tmp/
+.settings/*
+.svn/
+*.war
+gwt-unitCache/
+signImageCache/
+symbolImages/*
+test-classes/
+war/pdf/
+/pdf
+war/WEB-INF/classes
+war/WEB-INF/deploy
+war/signwritingeditor
+www-test/
+testpdf/
+pdf/
+war/pdf/
+hilfsvideos/
+upload-test/
+video-cache/
+video-cache-test/
+folderhistory.csv
+folderhistory_JUnit_test.csv
+excel-log.txt
+dexcel/
+excelimport-test.txt
+
+# Eclipse 
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Eclipse Core
+.project
+
+# IntelliJ
+.idea/
+SignWritingEditor.iml
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+config/ESFConfig.properties
+config/buildscript.properties
+config/log4j.properties
+config/SignWritingEditorExtension.gwt.xml
+infrastructure/.vagrant/
+war/de.signWritingEditor.SignWritingEditor.JUnit/
+war/delegseditortest.war_.zip
+war/vid/
+
+# Build specific (Ant)
+delegseditor*.war*
+war/badge/    
+war/jsonParser/
+war/signQuiz/ 
+testOutput/
+.antTemp/
+#config/buildscript.properties
+
+# Open Source
+setup/TutorialVideos.zip

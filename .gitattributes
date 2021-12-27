@@ -1,0 +1,2 @@
+.java text eol=crlf
+*.zip filter=lfs diff=lfs merge=lfs -text

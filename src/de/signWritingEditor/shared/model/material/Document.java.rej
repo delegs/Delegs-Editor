@@ -1,0 +1,12 @@
+diff a/src/de/signWritingEditor/shared/model/material/Document.java b/src/de/signWritingEditor/shared/model/material/Document.java	(rejected hunks)
+@@ -1,9 +1,9 @@
+ package de.signWritingEditor.shared.model.material;
+ 
+-import java.io.Serializable;
+ import java.util.ArrayList;
+ import java.util.List;
+ 
++import de.signWritingEditor.prod.persistence.DocumentInstanceCreator;
+ import de.signWritingEditor.shared.model.domainValue.DocumentIndex;
+ import de.signWritingEditor.shared.model.domainValue.FileTitle;
+ import de.signWritingEditor.shared.model.domainValue.Id;

@@ -1,0 +1,39 @@
+1.) Alle Räume finden die unter dem gleichen Raumnamen exististieren: 
+
+	SELECT * FROM signbase.folders WHERE title = [RAUM_NAME];
+
+2.) Falls mehrere Einträge existieren, dann die gewünschte "lowerId" und die "upperId" des Folders A raussuchen. Mit diesen dann den Raum raussuchen:
+
+	SELECT * FROM signbase.rooms WHERE folderLowerId=[lowerId] AND folderUpperId=[upperId];
+
+3.) Aus dem gefundenen Eintrag die "recycleBinLowerId" und die "recycleBinUpperId" heraussuchen und mit folgendem Befehl den Eintrag aus recyclebins löschen:
+
+	DELETE FROM signbase.recyclebins WHERE lowerId=[recycleBinLowerId] AND upperId=[recycleBinUpperId];
+
+4.) Mit folgendem Befehl alle Subfolder finden (Wenn keine Subfolder vorhanden gehe zu 8):
+
+	SELECT * FROM signbase.folders WHERE parentFolderUpperId = [upperId] AND parentFolderLowerId = [lowerId];
+		
+5.) Mache solange 4.) bis du in einem Folder B bist der keine Subfolder hat. Von diesem Folder B merke [subFolderUpperId] AND parentFolderLowerId = [subFolderLowerId].
+	Dann Lösche alle Items aus diesem Folder B mit folgenden Befehlen:
+
+	DELETE FROM signbase.documents WHERE parentFolderUpperId = [subFolderUpperId] AND parentFolderLowerId = [subFolderLowerId];
+	
+6.) Lösche den Folder B mit folgendem Befehl:
+
+	DELETE FROM signbase.folders WHERE upperId = [subFolderUpperId] AND lowerId = [subFolderLowerId];
+	
+7.) Mache 5. und 6. für alle Subfolder von A.
+	
+8.) Sobald der Folder A keine Subfolder mehr hat lösche A:
+
+	DELETE FROM signbase.folders WHERE upperId = [upperId] AND lowerId = [lowerId];
+	
+9.) Alle RoomUser löschen die dem zu löschenden Raum zugeordnet sind mit folgendem Befehl:
+	
+	DELETE FROM signbase.roomusers WHERE roomUpperId = [upperId] AND roomLowerId = [lowerId];
+	
+10.) Entsprechenden Raum löschen mit folgendem Befehl:
+
+	DELETE FROM signbase.rooms WHERE folderLowerId=[lowerId] AND folderUpperId=[upperId];
+

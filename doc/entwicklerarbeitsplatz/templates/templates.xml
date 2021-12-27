@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+	<template autoinsert="true" context="java" deleted="false"
+		description="post" enabled="true" name="post"> * @ensure ${}&#13;
+		assert ${} : "Postcondition failed: ${}";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="post not null" enabled="true" name="postnn"> * @ensure result !=
+		null&#13;
+		assert ${result} != null : "Postcondition failed: result != null";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="pre" enabled="true" name="pre"> * @require ${}&#13;
+		assert ${} : "Precondition failed: ${}";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="require index within bounds" enabled="true" name="prei"> *
+		@require ${index} &gt;= 0&#13;
+		* @require ${index} &lt; ${upperBound}&#13;
+		assert ${index} &gt;= 0 : "Precondition failed: ${index} &gt;= 0";&#13;
+		assert ${index} &lt; ${upperBound} : "Precondition failed: ${index}
+		&lt; ${upperBound}";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="require index within bounds" enabled="true" name="preidbg"> *
+		@require ${index} &gt;= 0&#13;
+		* @require ${index} &lt; ${upperBound}&#13;
+		assert ${index} &gt;= 0 : "Precondition failed: ${index} [" + ${index} + "]
+		&gt;= 0";&#13;
+		assert ${index} &lt; ${upperBound} : "Precondition failed: ${index} [" +
+		${index} + "] &lt; ${upperBound} [" + ${upperBound} + "]";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="pre not null" enabled="true" name="prenn"> * @require
+		${enclosing_method_arguments} != null&#13;
+		assert ${enclosing_method_arguments} != null : "Precondition failed:
+		${enclosing_method_arguments} != null";</template>
+	<template autoinsert="true" context="java" deleted="false"
+		description="standard output" enabled="true" name="stdo">System.out.println(${});</template>
+</templates>

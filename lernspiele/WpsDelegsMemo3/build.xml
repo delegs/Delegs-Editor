@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="WpsDelegsMemo3" default="build" basedir=".">
+
+	<property name="war" location="war" />
+	<property name="web" location="${war}/WEB-INF" />
+	<property name="bin" location="${web}/classes" />
+	<property name="lib" location="${web}/lib" />
+	<property name="res" location="res" />
+
+	<property name="gwt" location="d:/programme/gwt-2.7.0" /> <!-- ADD YOUR PATH HERE -->
+
+	<path id="project.source.path">
+		<pathelement location="src" />
+	</path>
+
+	<path id="project.class.path">
+		<pathelement location="${bin}" />
+		<pathelement location="${gwt}/gwt-user.jar" />
+		<fileset dir="${gwt}" includes="**/*.jar" />
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
+
+	<target name="javac" description="Compile java source">
+		<mkdir dir="${bin}" />
+		<javac includes="**" encoding="utf-8" destdir="${bin}" source="1.7" target="1.7" debug="true" debuglevel="lines,vars,source" nowarn="false" includeantruntime="false">
+			<src refid="project.source.path" />
+			<classpath refid="project.class.path" />
+		</javac>
+		<copy todir="${bin}">
+			<path refid="project.source.path" />
+		</copy>
+	</target>
+
+	<target name="gwtc" depends="javac" description="GWT compile to JavaScript">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<path refid="project.source.path" />
+				<path refid="project.class.path" />
+			</classpath>
+			<jvmarg value="-Xmx256M" />
+			<arg line="-style OBFUSCATED -strict -compileReport" />
+			<arg value="de.delegs.memo.WpsDelegsMemo3" />
+		</java>
+	</target>
+
+	<target name="build" depends="gwtc" description="Build this project">
+		<war basedir="${war}" destfile="WpsDelegsMemo3.war.bak" webxml="${web}/web.xml">
+			<exclude name="WEB-INF/**" />
+			<webinf dir="${web}/">
+				<include name="**/*.jar" />
+			</webinf>
+			<classes dir="${bin}" />
+		</war>
+	</target>
+
+	<target name="clean" description="Clean this project">
+		<delete dir="${bin}" failonerror="false" />
+	</target>
+
+</project>

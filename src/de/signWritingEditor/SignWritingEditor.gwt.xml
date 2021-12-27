@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='signwritingeditor'>
+	<!-- Inherit the core Web Toolkit stuff. -->
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.json.JSON' />
+	<!-- inherits name='config.SignWritingEditorExtension' / -->
+
+	<!-- Inherit the default GWT style sheet. You can change -->
+	<!-- the theme of your GWT application by uncommenting -->
+	<!-- any one of the following lines. -->
+	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
+	<inherits name='com.google.gwt.user.theme.chrome.Chrome' />
+	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
+	
+	<!-- Other module inherits -->
+    <inherits name='de.jsonParser.jsonParser' />
+	<inherits name='de.badge.badge' />
+	
+	<!-- include logger -->
+	<inherits name="com.google.gwt.logging.Logging"/>
+	
+	<!-- Specify the app entry point class. -->
+	<entry-point class='de.signWritingEditor.client.GWTClient.ui.tool.workbench.SignWritingEditor' />
+	
+	<!--  client side debugging logs -->
+	<set-property name="gwt.logging.logLevel" value="SEVERE" />
+	<set-property name="gwt.logging.enabled" value="TRUE" />
+
+	<set-property name="user.agent" value="gecko1_8, safari"/>     
+
+	<define-property name="navigator.platform" values="default, mac" />
+	<property-provider name="navigator.platform">
+	<![CDATA[
+      var localNavigator = navigator || window.navigator; 
+      var platform = localNavigator.platform.toLowerCase();
+      if(platform.indexOf("mac")!=-1)
+      {
+      return "mac";
+      }
+      else return "default";
+  ]]>
+	</property-provider>
+
+	<!-- Safari-specific implementation -->
+	<replace-with class="de.signWritingEditor.client.ui.tool.subtools.documentEditor.CursorImplWebkit">
+		<when-type-is class="de.signWritingEditor.client.ui.tool.subtools.documentEditor.AbstractCursorImpl" />
+	</replace-with>
+
+	<replace-with class="de.signWritingEditor.client.ui.tool.subtools.documentEditor.CursorImplMozilla">
+		<when-type-is class="de.signWritingEditor.client.ui.tool.subtools.documentEditor.AbstractCursorImpl" />
+		<any>
+			<when-property-is name="user.agent" value="gecko1_8" />			
+		</any>
+	</replace-with>
+
+	<replace-with
+		class="de.signWritingEditor.client.ui.general.eventHandling.EventTranslatorMacImpl">
+		<when-type-is
+			class="de.signWritingEditor.client.ui.general.eventHandling.EventTranslatorStandardImpl" />
+		<any>
+			<when-property-is name="navigator.platform" value="mac" />
+		</any>
+	</replace-with>
+
+	<!-- Specify the paths for translatable code -->
+	<source path='client' />
+	<source path='shared' />
+	<source path='infrastructure'/>
+	<source path='test'/>
+	<source path='integration-gwtTests'/>
+	<source path='integration-dbTests'/>
+</module>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+	<meta name="mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+	<style>
+		* {
+			-webkit-backface-visibility: hidden; /* fix for fixed position elements on Android 2.2/2.3 */
+
+			-webkit-transform: translateZ(0); /* use 3D transforms to ensure they are hardware-accelerated on ios */ 
+			/* may be required due to 3D transforms: -webkit-font-smoothing: antialiased; */
+
+  			-webkit-box-sizing: border-box; 
+  			-moz-box-sizing: border-box; 
+  			-ms-box-sizing: border-box; 
+  			-o-box-sizing: border-box; 
+  			box-sizing: border-box; 
+  			
+		    -webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		}
+		
+		html { 
+			height: 100%;
+		}
+		
+		body {
+			height: 100%;
+			margin: 0px; 
+			overflow: hidden;
+			background-color: #000000;
+		}
+
+		:focus {
+			outline:none;
+		}
+		
+		::-moz-focus-inner {
+			border:0;
+		}
+	</style>
+
+    <title>delegs-Memo</title>
+    
+    <script type="text/javascript" language="javascript" src="wpsdelegsmemo3/wpsdelegsmemo3.nocache.js"></script>
+    <script type="text/javascript" language="javascript">
+      function blockRubberBandEffect() { 
+    	  if (!event.target.classList.contains('scrollable')) {
+    		  event.preventDefault(); 
+   		  }
+   	  }
+    </script>
+  </head>
+
+  <body ontouchmove='blockRubberBandEffect()'>
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        In Deinem Web-Browser muss Javascript aktiviert sein, damit diese Seite korrekt funktioniert.
+      </div>
+    </noscript>
+  </body>
+</html>

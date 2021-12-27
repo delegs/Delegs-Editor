@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+    <!-- Servlets -->
+
+    <!-- Default page to serve -->
+    <welcome-file-list>
+        <welcome-file>SignWritingEditor.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- Listener -->
+    <listener>
+        <listener-class>
+            de.signWritingEditor.server.service.ServletContextListenerImpl
+        </listener-class>
+    </listener>
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>SignWritingServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.service.SignWritingServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignWritingServlet</servlet-name>
+        <url-pattern>/signwritingeditor/signwritingservice</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignImageServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.shared.SignImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignImageServlet</servlet-name>
+        <url-pattern>/signwritingeditor/signimages</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SymbolImageServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.shared.SymbolImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SymbolImageServlet</servlet-name>
+        <url-pattern>/signwritingeditor/symbolimages</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignItemServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.shared.SignItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignItemServlet</servlet-name>
+        <url-pattern>/signwritingeditor/signitems</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DictionaryServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.iPadPhone.DictionaryServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DictionaryServlet</servlet-name>
+        <url-pattern>/signwritingeditor/dictionary</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignWritingImageServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.shared.SignWritingImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignWritingImageServlet</servlet-name>
+        <url-pattern>/signwritingeditor/signwritingimage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignLocaleServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.shared.SignLocaleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignLocaleServlet</servlet-name>
+        <url-pattern>/signwritingeditor/signlocales</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>DocumentServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.iPadPhone.DocumentServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DocumentServlet</servlet-name>
+        <url-pattern>/signwritingeditor/documents</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FormularServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.FormularServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FormularServlet</servlet-name>
+        <url-pattern>/signwritingeditor/formular</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExcelImportServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.ExcelImportServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ExcelImportServlet</servlet-name>
+        <url-pattern>/signwritingeditor/excel</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TutorialDeliveryServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.TutorialDeliveryServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TutorialDeliveryServlet</servlet-name>
+        <url-pattern>/signwritingeditor/tutorials</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PdfDeliveryServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.PdfDeliveryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>PdfDeliveryServlet</servlet-name>
+        <url-pattern>/signwritingeditor/pdf</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VideoCacheSupplier</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.VideoCacheSupplier</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>VideoCacheSupplier</servlet-name>
+        <url-pattern>/signwritingeditor/video-cache</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CaptchaImageServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.gwtClient.CaptchaImageServlet
+        </servlet-class>
+        <init-param>
+            <param-name>width</param-name>
+            <param-value>150</param-value>
+        </init-param>
+        <init-param>
+            <param-name>height</param-name>
+            <param-value>75</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CaptchaImageServlet</servlet-name>
+        <url-pattern>/signwritingeditor/captchaImg</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EmailAuthentificationServlet</servlet-name>
+        <servlet-class>
+            de.signWritingEditor.server.communication.gateway.specific.gwtClient.EmailAuthentificationServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EmailAuthentificationServlet</servlet-name>
+        <url-pattern>/signwritingeditor/emailAuthentification</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.gwtClient.ChangePasswordServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/signwritingeditor/changePassword</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ToSignServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.ToSignServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ToSignServlet</servlet-name>
+        <url-pattern>/signwritingeditor/toSign</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ErrorImageServlet</servlet-name>
+        <servlet-class>de.signWritingEditor.server.communication.gateway.specific.ErrorImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ErrorImageServlet</servlet-name>
+        <url-pattern>/signwritingeditor/errorImage</url-pattern>
+    </servlet-mapping>
+
+</web-app>

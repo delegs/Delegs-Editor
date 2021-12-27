@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="SignWritingEditor" default="help" basedir=".">
+	<!-- 
+	##### See help target at the end of this script for general information 
+	##### and to understand how this script is used (e.g. from command line). 
+	##### You will also find information there about properties, debugging tests, et cetera.
+	-->
+
+	<tstamp>
+		<format property="testDirTimestamp" pattern="yyyyMMdd_HHmmss" />
+		<format property="formatedTimestamp" pattern="dd/MM/yyyy HH:mm:ss" />
+	</tstamp>
+
+	<!--### General settings #############################-->
+	<property file="config/buildscript.properties" />
+
+	<!-- where Ant should place temporary files -->
+	<property name="tempDir" location=".antTemp" />
+
+	<property name="gwtHome" location="./lib/gwt" />
+
+	<property name="configDir" location="config" />
+	<property name="localConfigDir" location="${configDir}/local" />
+	<property name="prodConfigDir" location="${configDir}/prod" />
+	<property name="ciConfigDir" location="${configDir}/ci" />
+
+	<property name="esfConfig" value="ESFConfig.properties" />
+	<property name="log4jConfig" value="log4j.properties" />
+
+	<property name="modulConfigDir" value="/module/config" />
+	<property name="sWEModulConfigExtension" value="SignWritingEditorExtension.gwt.xml" />
+
+	<!--## Properties to influence if targets should be run, mainly for debugging reasons. -->
+	<!--## A not run target is _not_ blocking further excecution of the target chain.-->
+	<property name="runCleanup" value="true" />
+	<property name="compileJava" value="true" />
+	<property name="compileTests" value="true" />
+	<property name="runJUnitTests" value="true" />
+	<property name="migrateDB" value="true" />
+	<property name="compileGWT" value="true" />
+	<property name="runIntegrationGwtTests" value="true" />
+	<property name="runIntegrationDBTests" value="true" />
+	<property name="extractVideos" value="true" />
+	<property name="createWar" value="true" />
+
+	<property name="outputFileNameTest" value="delegseditortest.war_" />
+	<property name="outputFileNameProd" value="delegseditor.war_" />
+	
+	<property name="src" location="src" />
+	<property name="warDir" location="war" />
+	<property name="web" location="${warDir}/WEB-INF" />
+	<property name="classes" location="${web}/classes" />
+	<property name="weblib" location="${web}/lib" />
+	<property name="warSignwritingeditor" location="${warDir}/signwritingeditor/" />
+
+	<path id="src.class.path">
+		<pathelement location="${classes}" />
+		<fileset dir="${gwtHome}" includes="**/*.jar" />
+		<fileset dir="${weblib}" includes="**/*.jar" />
+	</path>
+
+	<path id="gwt.src.class.path">
+		<path refid="src.class.path" />
+		<pathelement location="${src}" />
+	</path>
+
+	<path id="migrate.db.class.path">
+		<path refid="src.class.path" />
+		<pathelement location="${src}" />
+		<pathelement location="${configDir}" />
+	</path>
+
+	<path id="DocumentXMLtoJSON.db.class.path">
+		<path refid="src.class.path" />
+		<pathelement location="${src}" />
+		<pathelement location="${configDir}" />
+	</path>
+
+	<!--### Settings for jUnit & integration tests #############################-->
+
+	<!--If true, build will stop if a integration test fails or has an error, else build will only stop on error-->
+	<property name="stopOnIntTestFailure" value="true" />
+	<property name="tempTestDir" location="${tempDir}/test" />
+	<property name="tempTestClassesDir" location="${tempTestDir}/classes" />
+
+	<property name="jUnitHome" location="./lib/jUnit" />
+	<property name="unitTestDir" location="test" />
+	<property name="localJunitConfigDir" location="${unitTestDir}" />
+	<property name="esfJunitConfig" value="ESFConfig_Junit.properties" />
+	<property name="tempjUnitDir" location="${tempTestDir}/jUnit" />
+
+	<!-- Directory to write test reports to -->
+	<property name="testLogDir" location="testOutput/${testDirTimestamp}" />
+
+	<property name="intGwtTestDir" location="integration-gwtTests" />
+	<property name="intDbTestDir" location="integration-dbTests" />
+	<property name="tempIntTestDir" location="${tempTestDir}/integrationTest" />
+
+	<path id="junit.build.class.path">
+		<path refid="src.class.path" />
+		<fileset dir="${jUnitHome}" includes="**/*.jar" />
+	</path>
+
+	<path id="junit.class.path">
+		<pathelement location="${classes}" />
+		<pathelement location="${tempTestClassesDir}" />
+		<fileset dir="${jUnitHome}" includes="**/*.jar" />
+		<fileset dir="${weblib}" includes="**/*.jar" />
+	</path>
+
+	<path id="integration.test.class.path">
+		<pathelement location="${tempTestClassesDir}" />
+		<pathelement location="${src}" />
+		<pathelement location="${unitTestDir}" />
+		<pathelement location="${intGwtTestDir}" />
+		<pathelement location="${intDbTestDir}" />
+		<fileset dir="${jUnitHome}" includes="**/*.jar" />
+		<path refid="src.class.path" />
+	</path>
+
+
+	<!--### Targets #############################-->
+
+	<target name="info">
+		<echo message="Starting Buildscript at ${formatedTimestamp}" />
+		<echo message="Run the help target, if any problems occure (using 'ant help' from command line in project root)." />
+	</target>
+
+	<target name="cleanup" description="Cleans up war folder" if="${runCleanup}">
+		<delete includeemptydirs="true" verbose="false" failonerror="false">
+			<fileset dir="${warDir}">
+				<include name="*/**" />
+				<exclude name="delegseditortest.ebextensions" />
+				<exclude name="favicon.png" />
+				<exclude name="german.dic" />
+				<exclude name="font-metrics.json"/>
+				<exclude name="SignWritingEditor.css" />
+				<exclude name="SignWritingEditor.html" />
+				<exclude name="WEB-INF/lib/" />
+				<exclude name="WEB-INF/web.xml" />
+				<exclude name="images/" />
+			</fileset>
+			<fileset dir="${tempDir}" />
+		</delete>
+		<echo message="Cleanup done." />
+	</target>
+
+	<target name="config-store" description="Stores the current application configuration">
+		<delete dir="${tempDir}/config" includeemptydirs="true" verbose="false" failonerror="false" />
+		<copy todir="${tempDir}/config" overwrite="true" force="true" verbose="true" failonerror="false">
+			<resources>
+				<file file="${configDir}/${esfConfig}" />
+				<file file="${configDir}/${log4jConfig}" />
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+	</target>
+
+	<target name="config-set-local-test" description="Sets the current application configuration for only running junit tests in development environment.">
+		<echo message="Setting application configuration to run junit tests only." />
+		<copy todir="${configDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${localConfigDir}/${log4jConfig}" />
+				<file file="${localConfigDir}/${modulConfigDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<copy file="${localJunitConfigDir}/${esfJunitConfig}" tofile="${configDir}/${esfConfig}" overwrite="true" force="true" verbose="true" failonerror="true"/>
+		<mkdir dir="${classes}" />
+		<copy todir="${classes}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${esfConfig}" />
+				<file file="${configDir}/${log4jConfig}" />
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+				<file file="${configDir}/Version.properties" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}/config/" />
+		<copy todir="${classes}/config/" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<property name="stopOnUnitTestFailure" value="false" />
+		<property name="debug" value="true" />
+	</target>
+
+	<target name="config-set-local" description="Sets the current application configuration for local usage">
+		<echo message="Setting up application to run with local configuration." />
+		<copy todir="${configDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${localConfigDir}/${esfConfig}" />
+				<file file="${localConfigDir}/${log4jConfig}" />
+				<file file="${localConfigDir}/${modulConfigDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}" />
+		<copy todir="${classes}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${esfConfig}" />
+				<file file="${configDir}/${log4jConfig}" />
+				<file file="${configDir}/Version.properties" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}/config/" />
+		<copy todir="${classes}/config/" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<property name="stopOnUnitTestFailure" value="true" />
+		<property name="debug" value="true" />
+	</target>
+
+	<target name="config-set-ci" description="Sets the current application configuration for running build in the gitlab runner environment">
+		<echo message="Setting up application to run with gitlab runner environment configuration." />
+		<copy todir="${configDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${ciConfigDir}/${esfConfig}" />
+				<file file="${ciConfigDir}/${log4jConfig}" />
+				<file file="${ciConfigDir}/${modulConfigDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}" />
+		<copy todir="${classes}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${esfConfig}" />
+				<file file="${configDir}/${log4jConfig}" />
+				<file file="${configDir}/Version.properties" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}/config/" />
+		<copy todir="${classes}/config/" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<property name="stopOnUnitTestFailure" value="true" />
+	</target>
+
+	<target name="config-set-prod" description="Sets the current application configuration for deployment in the test environment">
+		<echo message="Setting up application to run with test deployment configuration." />
+		<copy todir="${configDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${prodConfigDir}/${esfConfig}" />
+				<file file="${prodConfigDir}/${log4jConfig}" />
+				<file file="${prodConfigDir}/${modulConfigDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}" />
+		<copy todir="${classes}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${esfConfig}" />
+				<file file="${configDir}/${log4jConfig}" />
+				<file file="${configDir}/Version.properties" />
+			</resources>
+		</copy>
+		<mkdir dir="${classes}/config/" />
+		<copy todir="${classes}/config/" overwrite="true" force="true" verbose="true" failonerror="true">
+			<resources>
+				<file file="${configDir}/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<property name="outputFileName" value="${outputFileNameTest}" />
+		<property name="stopOnUnitTestFailure" value="true" />
+		<property name="debug" value="true" />
+	</target>
+	
+	<target name="build-src" description="Compiles the java source." if="${compileJava}">
+		<mkdir dir="${classes}" />
+		<javac destdir="${classes}" verbose="false" includes="**" encoding="utf-8" source="1.8" target="1.8" debug="${debug}" debuglevel="source,lines,vars" nowarn="false" includeantruntime="false" fork="yes">
+			<src path="${src}" />
+			<src path="server" />
+			<src path="tool" />
+			<src path="config" />
+			<src path="resources" />
+			<classpath refid="src.class.path" />
+		</javac>
+		<echo>Copying resources.</echo>
+		<copy todir="${classes}" overwrite="true" force="true" failonerror="true">
+			<fileset dir="${src}" excludes="**/*.java" />
+			<fileset dir="server" excludes="**/*.java" />
+			<fileset dir="tool" excludes="**/*.java" />
+			<fileset dir="resources" excludes="**/*.java" />
+		</copy>
+	</target>
+
+	<!--Build all tests-->
+	<target name="build-tests" depends="build-src" if="${compileTests}">
+		<mkdir dir="${tempTestClassesDir}" />
+		<javac destdir="${tempTestClassesDir}" verbose="false" includes="**" encoding="utf-8" source="1.8" target="1.8" debug="${debug}" debuglevel="source,lines,vars" nowarn="false" fork="yes" includeantruntime="false">
+			<src path="${unitTestDir}" />
+			<src path="${intGwtTestDir}" />
+			<src path="${intDbTestDir}" />
+			<classpath>
+				<path refid="junit.build.class.path" />
+			</classpath>
+		</javac>
+	</target>
+
+	<!--Run unit tests-->
+	<target name="run-junit" depends="build-tests" if="${runJUnitTests}">
+		<echo>xmx set to ${xmx}</echo>
+		<mkdir dir="${tempjUnitDir}" />
+		<mkdir dir="${testLogDir}" />
+		<copy file="${configDir}/${esfConfig}" tofile="${localJunitConfigDir}/${esfJunitConfig}" overwrite="true" force="true" verbose="true" failonerror="true"/>
+		<copy todir="${tempTestClassesDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<fileset dir="${unitTestDir}" excludes="**/*.java" />
+		</copy>
+		<junit tempdir="${tempjUnitDir}" showoutput="true" logfailedtests="true" haltonfailure="${stopOnUnitTestFailure}" haltonerror="true" fork="true" forkmode="once" includeantruntime="true">
+			<classpath>
+				<path refid="junit.class.path" />
+			</classpath>
+			<jvmarg value="-server" />
+			<!--Xmx & Xms are set to the same value for performance reasons-->
+			<jvmarg value="-Xms${xmx}" />
+			<jvmarg value="-Xmx${xmx}" />
+			<jvmarg value="-ea" />
+			<jvmarg value="-Dfile.encoding=UTF-8" />
+			<formatter type="plain" />
+			<batchtest skipNonTests="true" todir="${testLogDir}" haltonfailure="${stopOnUnitTestFailure}" haltonerror="true">
+				<fileset dir="${unitTestDir}" />
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="migr-db" depends="build-src" description="Migrates the database. The affected database can be set in the /config/ESFConfig.properties file (key: esf.db.url)" if="${migrateDB}">
+		<echo>Migration is only executed if necessary for targeted database.</echo>
+		<java failonerror="true" fork="true" classname="de.signWritingEditor.shared.infrastructure.migration.DbMigrator">
+			<classpath>
+				<path refid="migrate.db.class.path" />
+			</classpath>
+			<jvmarg value="-server" />
+			<!--Xmx & Xms are set to the same value for performance reasons-->
+			<jvmarg value="-Xms${gwtXmx}" />
+			<jvmarg value="-Xmx${gwtXmx}" />
+			<jvmarg value="-ea" />
+		</java>
+	</target>
+
+	<target name="run-int-gwt-test" depends="build-tests" description="Run gwt integration tests" if="${runIntegrationGwtTests}">
+		<mkdir dir="${tempIntTestDir}" />
+		<mkdir dir="${testLogDir}" />
+		<copy todir="${tempTestClassesDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<fileset dir="${intGwtTestDir}" excludes="**/*.java" />
+		</copy>
+		<junit tempdir="${tempIntTestDir}" showoutput="true" logfailedtests="true" haltonfailure="${stopOnIntTestFailure}" haltonerror="true" enableTestListenerEvents="true" fork="true" forkmode="once" includeantruntime="true">
+			<classpath>
+				<path refid="integration.test.class.path" />
+			</classpath>
+			<jvmarg value="-server" />
+			<!--Xmx & Xms are set to the same value for performance reasons-->
+			<jvmarg value="-Xms${xmx}" />
+			<jvmarg value="-Xmx${xmx}" />
+			<jvmarg value="-ea" />
+			<jvmarg value="-Dfile.encoding=UTF-8" />
+			<formatter type="plain" />
+			<batchtest skipNonTests="true" todir="${testLogDir}" haltonfailure="${stopOnIntTestFailure}" haltonerror="true">
+				<fileset dir="${intGwtTestDir}">
+					<include name="**/CodeTestSuite.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="run-int-db-test" depends="build-tests" description="Run gwt integration tests" if="${runIntegrationDBTests}">
+		<mkdir dir="${tempIntTestDir}" />
+		<mkdir dir="${testLogDir}" />
+		<copy todir="${tempTestClassesDir}" overwrite="true" force="true" verbose="true" failonerror="true">
+			<fileset dir="${intDbTestDir}" excludes="**/*.java" />
+		</copy>
+		<junit tempdir="${tempIntTestDir}" showoutput="true" logfailedtests="true" haltonfailure="${stopOnIntTestFailure}" haltonerror="true" enableTestListenerEvents="true" fork="true" forkmode="once" includeantruntime="true">
+			<classpath>
+				<path refid="integration.test.class.path" />
+			</classpath>
+			<jvmarg value="-server" />
+			<!--Xmx & Xms are set to the same value for performance reasons-->
+			<jvmarg value="-Xms${xmx}" />
+			<jvmarg value="-Xmx${xmx}" />
+			<jvmarg value="-ea" />
+			<jvmarg value="-Dfile.encoding=UTF-8" />
+			<formatter type="plain" />
+			<batchtest skipNonTests="true" todir="${testLogDir}" haltonfailure="${stopOnIntTestFailure}" haltonerror="true">
+				<fileset dir="${intDbTestDir}">
+					<exclude name="**/PdfServiceImplTest.java" />
+				</fileset >
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="build-gwtc" depends="build-src" description="GWT compile to JavaScript" if="${compileGWT}">
+		<echo>xmx set to ${gwtXmx}</echo>
+		<echo>localWorkers set to ${localWorkers}</echo>
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<path refid="gwt.src.class.path" />
+			</classpath>
+			<jvmarg value="-server" />
+			<!--Xmx & Xms are set to the same value for performance reasons-->
+			<jvmarg value="-Xms${gwtXmx}" />
+			<jvmarg value="-Xmx${gwtXmx}" />
+			<arg value="-strict" />
+			<arg line="-style OBFUSCATED" />
+			<arg line="-optimize 9" />
+			<arg line="-localWorkers ${localWorkers}" />
+			<arg line="-logLevel ${gwtcLogLevel}" />
+			<arg value="de.signWritingEditor.SignWritingEditor" />
+		</java>
+	</target>
+
+	<target name="zip-war" description="Creates the delegseditortest.war_ file (overwrite). To run this target, outputFileName property needs to be set." if="${createWar}">
+		<zip basedir="${warDir}" destfile="${outputFileName}" update="false" whenempty="fail" duplicate="fail" />
+	</target>
+
+	<target name="config-restore" depends="config-store" description="Restores the current application configuration">
+		<copy todir="${configDir}" overwrite="true" force="true" verbose="true" failonerror="false">
+			<resources>
+				<file file="${tempDir}/config/${esfConfig}" />
+				<file file="${tempDir}/config/${log4jConfig}" />
+				<file file="${tempDir}/config/${sWEModulConfigExtension}" />
+			</resources>
+		</copy>
+		<delete dir="${tempDir}/config" includeemptydirs="true" verbose="false" failonerror="false" />
+	</target>
+
+	<target name="local-run-junit-only" depends="info, cleanup, config-store, config-set-local-test, build-src, build-tests, run-junit, config-restore" description="Only runs unit tests. Does not halt on failure, only on error.">
+		<echo>Finished running junit tests.</echo>
+	</target>
+
+	<target name="local-run-all-tests" depends="info, cleanup, config-store, config-set-local-test, build-src, build-tests, run-junit, migr-db, run-int-gwt-test, run-int-db-test, config-restore" description="Runs all tests including integration tests. Designed to be run in development environment.">
+		<echo>Finished running all tests locally.</echo>
+	</target>
+
+	<target name="run-all-tests" depends="info, cleanup, build-src, build-tests, run-junit, migr-db, run-int-gwt-test, run-int-db-test" description="Runs all tests including integration tests. Does not configure the application.">
+		<echo>Finished running all tests.</echo>
+	</target>
+
+	<target name="ci-test" depends="info, cleanup, config-set-ci, build-src, build-tests, run-junit, migr-db, run-int-gwt-test, run-int-db-test" description="Runs all tests in ci pipeline">
+		<echo>Finished building delegs-Editor for being deployed in test environment.</echo>
+	</target>
+
+	<target name="ci-prod-test-build" depends="info, cleanup, config-set-ci, build-src, build-tests, run-junit, migr-db, run-int-gwt-test, run-int-db-test, config-set-prod, build-gwtc, zip-war" description="Runs all tests in ci pipeline and builds deployable artifact">
+		<echo>Finished building delegs-Editor for being deployed in producive environment.</echo>
+	</target>
+
+	<target name="help" description="Displays information about the build.xml">
+		<echo>### Ant Build Script Help</echo>
+		<echo>${line.separator}</echo>
+		<echo>To see additional information about variables, so called 'properties', that can be set, see target help-vars, </echo>
+		<echo>e.g. by excecuting the following command from command line in project root:</echo>
+		<echo>ant help-vars</echo>
+		<echo>${line.separator}</echo>
+		<echo>For additional information about testing, especially debugging ant-run-tests see target help-tests.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## Run This Script In The Project Root Directory</echo>
+		<echo>${line.separator}</echo>
+		<echo>To run this script you need to have a build.properties file in the /config/, wherein you set the properties 'xmx', 'gwtXmx'</echo>
+		<echo>and 'localWorkers' according to the system this script will be running on. THis applies to almost every target.</echo>
+		<echo>Find furhter information in help-vars target.</echo>
+		<echo>The different targets you can choose to run this script against are explained below.</echo>
+		<echo>You can run the script with different purposes, so called 'targets'.</echo>
+		<echo>E.g. if you want to run this script to build a version of the delegs editor to be used in the test environment,</echo>
+		<echo>you would start the script from a console via command line using the following command:</echo>
+		<echo>ant prod-test-build</echo>
+		<echo>You can also run scripts via Eclipse right clicking the desired target -> Run as -> Ant Build.</echo>
+		<echo>Running a target A recursivly runs all the targets that target A depends on.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## Targets To Run This Script Against</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          help</echo>
+		<echo>Description:   Displays this help text.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          help-vars</echo>
+		<echo>Description:   Displays information about variables, so called 'properties', that can be set to influence</echo>
+		<echo>               the execution of this build script.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          local-run-junit-only</echo>
+		<echo>Description:   Runs all junit tests contained in folder src/test/ and its subfolders.</echo>
+		<echo>Remarks:       Designed to be run in development environment.</echo>
+		<echo>               By default stopOnUnitTestFailure property is set to false, which means failing tests are not stopping</echo>
+		<echo>               the execution of the other tests. Set stopOnUnitTestFailure to true, if test execution should stop on failure.</echo>
+		<echo>               See help-vars target for further information.</echo>
+		<echo>               Test output can be find in the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          run-int-gwt-test</echo>
+		<echo>Description:   Runs all integrationtests contained in folder src/integration-gwtTests/ and its subfolders.</echo>
+		<echo>Remarks:       Warning: No cofiguration will be set, but current configuration will be used!</echo>
+		<echo>               To set the configuration run one of the config targets, or set the configuration manually by copying</echo>
+		<echo>               the corresponding *.properties files into /config/ folder.</echo>
+		<echo>               Test output can be find in the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          run-int-db-test</echo>
+		<echo>Description:   Runs all integrationtests contained in folder src/integration-dbTests/ and its subfolders.</echo>
+		<echo>Remarks:       Warning: No cofiguration will be set, but current configuration will be used!</echo>
+		<echo>               To set the configuration run one of the config targets, or set the configuration manually by copying</echo>
+		<echo>               the corresponding *.properties files into /config/ folder.</echo>
+		<echo>               Test output can be find in the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          local-run-all-tests</echo>
+		<echo>Description:   Builds the application configured for being used in the local development environment.</echo>
+
+		<echo>Remarks:       Runs jUnit tests and all integration tests.</echo>
+		<echo>               By default stopOnUnitTestFailure property is set to true, which means failing tests are stopping the</echo>
+		<echo>               execution of the other tests. Set stopOnUnitTestFailure to false, if test execution should not stop on failure.</echo>
+		<echo>               See help-vars target for further information.</echo>
+		<echo>               Test output can be find in the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          run-all-tests</echo>
+		<echo>Description:   Builds the application.</echo>
+		<echo>               To set the configuration run one of the config targets, or set the configuration manually by copying</echo>
+		<echo>               the corresponding *.properties files into /config/ folder.</echo>
+		<echo>Remarks:       Runs jUnit tests and all integration tests.</echo>
+		<echo>               By default stopOnUnitTestFailure property is set to true, which means failing tests are stopping the</echo>
+		<echo>               execution of the other tests. Set stopOnUnitTestFailure to false, if test execution should not stop on failure.</echo>
+		<echo>               See help-vars target for further information.</echo>
+		<echo>               Test output can be find in the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          migr-db</echo>
+		<echo>Description:   Builds the java sources and migrates the affected database. </echo>
+		<echo>               The affected database can be set in the /config/ESFConfig.properties file (key: esf.db.url),</echo>
+		<echo>               e.g. by using one of the config-set-* targets.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          ci-test</echo>
+		<echo>Description:   Runs all tests. This target is supposed to be used by a ci pipeline.</echo>
+		<echo>Remarks:       Runs jUnit tests, all integration tests. Does migrate a database.</echo>
+		<echo>${line.separator}</echo>
+
+
+		<echo>Name:          ci-prod-test-build</echo>
+		<echo>Description:   Builds the application configured for being used in the prod environment. This target is supposed to be used by a ci pipeline.</echo>
+		<echo>Remarks:       Runs jUnit tests, all integration tests, creates deployable delegseditortest.war_ file. Does migrate a database.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          cleanup</echo>
+		<echo>Description:   Cleans up /war/ folder. Removes all build artifacts produced by this script or the eclipse IDE building processes.</echo>
+		<echo>Remarks:       This target is run by some other targets as a dependency. This can be disabled by setting</echo>
+		<echo>               runCleanup to false. "Disabled" targets still produce a tiny amount of output.</echo>
+		<echo>               See or run help-vars target for further information.</echo>
+		<echo>               This target also deletes temporary files created by this script.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-store</echo>
+		<echo>Description:   Stores the current application configuration, which is set in the /config/ folder.</echo>
+		<echo>               Overwrites former stored configuration.</echo>
+		<echo>Remarks:       After running config-store, you can run config-restore to restore stored configuration.</echo>
+		<echo>               See config-restore for further information .</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-restore</echo>
+		<echo>Description:   Restores former stored configuration. Overwrites the current application configuration which is</echo>
+		<echo>               set in the /config/ folder.</echo>
+		<echo>Remarks:       Use config-store to store current application configuration. See config-store for further information.</echo>
+		<echo>               After running config-restore stored configuration is deleted.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-set-local-test</echo>
+		<echo>Description:   Sets the current application configuration for only running junit tests in the development environment.</echo>
+		<echo>Description:   It will then work on the signbase_junit schema.</echo>
+		<echo>Remarks:       The property stopOnUnitTestFailure is set to false.</echo>
+		<echo>               See help-vars target for further information about stopOnUnitTestFailure.</echo>
+		<echo>               Use config-store config-restore to (re)store current application configuration.</echo>
+		<echo>               See config-store and config-restore for further information.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-set-local</echo>
+		<echo>Description:   Sets the current application configuration for local usage.</echo>
+		<echo>Remarks:       The property stopOnUnitTestFailure is set to true.</echo>
+		<echo>               See help-vars target for further information about stopOnUnitTestFailure.</echo>
+		<echo>               Use config-store config-restore to (re)store current application configuration.</echo>
+		<echo>               See config-store and config-restore for further information.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-set-ci</echo>
+		<echo>Description:   Sets the current application configuration to be used in a gitlab runner environment.</echo>
+		<echo>Remarks:       The property stopOnUnitTestFailure is set to true.</echo>
+		<echo>               See help-vars target for further information about stopOnUnitTestFailure.</echo>
+		<echo>               Use config-store config-restore to (re)store current application configuration.</echo>
+		<echo>               See config-store and config-restore for further information.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          config-set-prod</echo>
+		<echo>Description:   Sets the current application configuration for deployment in the test environment.</echo>
+		<echo>Remarks:       The property stopOnUnitTestFailure is set to true.</echo>
+		<echo>               See help-vars target for further information about stopOnUnitTestFailure.</echo>
+		<echo>               Use config-store config-restore to (re)store current application configuration.</echo>
+		<echo>               See config-store and config-restore for further information.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          build-src</echo>
+		<echo>Description:   Compiles the java source.</echo>
+		<echo>Remarks:       Does not compile the gwt specific sources, if desired use build-gwtc target.</echo>
+		<echo>               See build-gwtc for further information.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          zip-war</echo>
+		<echo>Description:   Create a *.war_ file (overwrite).</echo>
+		<echo>Remarks:       To run this target, outputFileName property needs to be set. outputFileName is automatically set by the</echo>
+		<echo>               env-* targets, but needs to be set e.g. if running ant against zip-war as the target aimed for.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+
+		<echo>### General Remarks:</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## Errors That Can Be ignored</echo>
+		<echo> - log4j:ERROR Could not find value for key log4j.appender.CONSOLE</echo>
+		<echo> - log4j:ERROR Could not instantiate appender named "CONSOLE"</echo>
+		<echo>    - Both log4j errors do not cause the build process to be interrupted</echo>
+		<echo>      They are produced by running the scirpt in an environment, that differs from the environment</echo>
+		<echo>      the application is configured for.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## Warnings That Can Be Ignored</echo>
+		<echo> - WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.</echo>
+		<echo>     - This warning is Windows host specific and can be ignored.</echo>
+		<echo> - WARNING: multiple versions of ant detected in path for junit</echo>
+		<echo> - warning: [options] bootstrap class path not set in conjunction with -source 1.7</echo>
+		<echo>     - This warning is raised, if the local installed java compiler (javac) is from a higher Java version than 1.7 (Java 7)</echo>
+	</target>
+
+	<target name="help-vars" description="Displays information about the properties used in this script.">
+		<echo>### Ant build script help about setable properties</echo>
+		<echo>${line.separator}</echo>
+		<echo>Overwrite properties from command line passing parameters to ant as follows:</echo>
+		<echo>ant -D[propertyName]="[value]" (without the brackets)</echo>
+		<echo>e.g. to run ant against the prod-test-build target with the stopOnUnitTestFailure set to true run:</echo>
+		<echo>ant prod-test-build -DstopOnUnitTestFailure="true"</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## Properties that can be overwritten</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          gwtXmx</echo>
+		<echo>Description:   Set gwtXmx in the /config/build.properties file to limit the usage of RAM for gwtc (dependend on your system specs).</echo>
+		<echo>               With the current gwt-module configuration gwtc seems to use 2 permutations, each running on an own jvm.</echo>
+		<echo>               The gwtXmx value is set for EVERY jvm, so you need to have around 5 times gwtXmx RAM, plus a few hundred</echo>
+		<echo>               mb for the main process which is also running in its own jvm. And of course you still need RAM for your system.</echo>
+		<echo>               Warning: Do not exceed the RAM limit of the machine this script is supposed to run on.</echo>
+		<echo>Values:        Example for setting this value (in the build.properties file):</echo>
+		<echo>               gwtXmx=4g</echo>
+		<echo>               This sets it to 4 gigabyte. You can use other values as 1024m for 1024 megabyte, etc. (as known from the jvm configuration).</echo>
+		<echo>Remarks:       There is no need to split available RAM between xmx and gwtXmx properties, since the tasks that</echo>
+		<echo>               are allocating the corresponding amount of memory are running seperately (in other words not at the same time).</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          localWorkers</echo>
+		<echo>Description:   Set localWorkers in the /config/build.properties file. Set it less than or equaly to the number of logical cpu cores</echo>
+		<echo>               of the environment this script is supposed to be run on.</echo>
+		<echo>Values:        1,2, ... 8, ..., e.g.:</echo>
+		<echo>               localWorkers=4</echo>
+		<echo>Default value: -</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          xmx</echo>
+		<echo>Description:   Set xmx in the /config/build.properties to limit the usage of RAM for running unit and integration tests.</echo>
+		<echo>               Warning: Do not exceed the RAM limit of the machine this script is supposed to run on.</echo>
+		<echo>Values:        Example for setting this value: 4g for 4 gigabyte or 1024m for 1024 megabyte.</echo>
+		<echo>Remarks:       There is no need to split available RAM between xmx and gwtXmx properties, since the tasks that</echo>
+		<echo>               are allocating the corresponding amount of memory are running seperately (in other words not at the same time).</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          gwtcLogLevel</echo>
+		<echo>Description:   Set gwt compiler log level in the /config/build.properties file.</echo>
+		<echo>Values:        ERROR, WARN, INFO, TRACE, DEBUG, SPAM, or ALL</echo>
+		<echo>Values:        e.g. gwtcLogLevel=ERROR</echo>
+		<echo>Default value: INFO, wich is the same as the Eclipse GWT plugin runs the gwtc.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          runCleanup</echo>
+		<echo>Description:   Define whether to run cleanup target.</echo>
+		<echo>               If true cleanup will delete all build artifacts produced by this script</echo>
+		<echo>               or the eclipse IDE building processes, else no cleanup is done.</echo>
+		<echo>Values:        true, false</echo>
+		<echo>Default value: true</echo>
+		<echo>Remarks:       "Disabled" targets still produce a tiny amount of output.</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>Name:          stopOnUnitTestFailure</echo>
+		<echo>Description:   Set wether to stop on a failure during unit tests or not.</echo>
+		<echo>               The build script always stops if tests run into an error.</echo>
+		<echo>Values:        true, false</echo>
+		<echo>Default value: None. Value is set dependend of the target ant is running against.</echo>
+		<echo>${line.separator}</echo>
+	</target>
+
+	<target name="help-tests" description="Displays information about running tests using this script.">
+		<echo>### Ant build script help about running tests using this script</echo>
+		<echo>${line.separator}</echo>
+		<echo>There are multiple targets to run tests unsing this script. See help target for further information.</echo>
+		<echo>Test output is written to the /testOutput/ folder.</echo>
+		<echo>${line.separator}</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>## How-to: Debugging tests that are run by this script</echo>
+		<echo>${line.separator}</echo>
+
+		<echo>You can attach Eclipse to the ant test runner.</echo>
+		<echo>To do so you need to pass the following lines to the junit task in the desired target (e.g. run-junit, run-int-db-test, etc):</echo>
+		<echo>&lt;jvmarg value="-Xdebug"/&gt;</echo>
+		<echo>&lt;jvmarg value="-Xnoagent"/&gt;</echo>
+		<echo>&lt;jvmarg value="-Djava.compiler=NONE"/&gt;</echo>
+		<echo>&lt;jvmarg value="-Xrunjdwp:transport=dt_socket,address=8787,prod=y,suspend=y"/&gt;</echo>
+		<echo>${line.separator}</echo>
+		<echo>You can then start the ant script and it will stop and wait for you to attach afterwords when running the corresponding tests.</echo>
+		<echo>Attach via Eclipse as follows:</echo>
+		<echo>Eclipse -&gt; Run -&gt; Debug Configurations -&gt; Remote Java Application -&gt; choose your 'own config' -&gt; Debug</echo>
+		<echo>If you haven't already created your _own config_, create one:</echo>
+		<echo> - Click on "Remote Java Application"</echo>
+		<echo> - In the top left corner of the window click "New launch configuration"</echo>
+		<echo> - Provide a name</echo>
+		<echo> - Connection Type: Standard (Socket Attach)</echo>
+		<echo> - Connection Properties:</echo>
+		<echo>     - Host: localhost</echo>
+		<echo>     - Port: 8787</echo>
+		<echo> - Set "allow termination of remote VM" to true</echo>
+	</target>
+</project>

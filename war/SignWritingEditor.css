@@ -1,0 +1,2039 @@
+@keyframes changeOpacity {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.1;
+  }
+}
+
+.opacityChanger {
+  animation-duration: 3s;
+  animation-name: changeOpacity;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: linear;
+  -moz-animation-duration: 1.5s;
+  -moz-animation-name: changeOpacity;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  -moz-animation-timing-function: linear;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-name: changeOpacity;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: linear;
+  -o-animation-duration: 1.5s;
+  -o-animation-name: changeOpacity;
+  -o-animation-iteration-count: infinite;
+  -o-animation-direction: alternate;
+  -o-animation-timing-function: linear;
+}
+
+.workbench {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-attachment: fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+}
+
+.pdfTable td{
+	height: 100%;
+}
+table.gwt-DatePicker td {
+	font-size: 20px;
+}
+
+.gwt-TextArea, .gwt-TextBox {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-size: small;
+}
+
+.toolPanel {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	padding-top: 50px;
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+}
+
+.tabPanel {
+	position: relative;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	padding-top: 75px;
+	width: 100%;
+	height: 100%;
+	float: left;
+}
+
+.hiddenFontMeasurmentElement {
+	visibility: visible;
+	opacity: 0;
+	font-size: 13px;
+	text-align: left;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	white-space: nowrap;
+	position: absolute;
+}
+
+.movementEditor .tabPanel {
+	margin-top: 45px;
+}
+
+.tabPanel .tabIcons {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 60px;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #ccc;
+}
+
+.tabPanel .tabIcons .tabIcon {
+	cursor: hand;
+	cursor: pointer;
+}
+
+.tabPanel .tabIcons .tabIcon+.tabIcon {
+	margin-left: 10px;
+}
+
+.colorPicker .colorPanelRow {
+	width: 250px;
+}
+
+.colorPicker  .colorChooserElement {
+	border-radius: 25px;
+	margin-left: 2px;
+	width: 17px;
+	height: 17px;
+	display: inline-block;
+	float: bottom;
+	border-with: 2px;
+	border-color: #DCE2DC;
+	border-style: solid;
+	cursor: pointer;
+}
+
+.colorPicker .colorChooserElement-selected {
+	border-color: #333333;
+}
+
+.colorPicker .colorChooserTable  .colorChooserElement {
+	margin-right: 2px;
+	margin-left: 2px;
+	margin-top: 6px;
+	margin-bottom: -8px;
+	border: solid;
+	border-color: #DCE2DC;
+	border-width: 2px;
+	width: 17px;
+	height: 17px;
+	display: inline-block;
+	float: bottom;
+}
+
+.colorPicker .colorChooserTable  .colorChooserElement-selected {
+	border-color: #333333;
+}
+
+.sidebarEditor .tabPanel .tabIcons .tabIcon+.tabIcon {
+	margin-left: 10px;
+}
+
+.movementEditor .tabPanel .tabIcons .tabIcon+.tabIcon {
+	margin-left: 15px;
+}
+
+.tabPanel .tabIcons .arrow {
+	width: 19px;
+	height: 16px;
+	position: absolute;
+	bottom: 0px;
+	margin-bottom: -1px;
+	background-image: url('images/tab-arrow.png');
+}
+
+.tabPanel .tabContent {
+	width: 100%;
+	height: auto;
+}
+
+.colorPicker {
+	align-items: center;
+}
+
+.documentEditor .documentEditorSidebar {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: relative;
+	background-color: #fff;
+	border-left: 1px solid #444;
+	box-shadow: 0px 5px 10px #888;
+	-moz-box-shadow: 0px 5px 10px #888;
+	-webkit-box-shadow: 0px 5px 10px #888;
+	height: 100%;
+	float: right;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 15px;
+	padding-top: 20px;
+
+	margin-right: 5px;
+	display: grid;
+	grid-template-columns: auto;
+	grid-template-rows: auto 35px; 
+}
+
+.openSideBar {
+	grid-row: 1;
+	padding-right: 5px;
+	margin-bottom: 20px;
+}
+
+.countPanel {
+ grid-row: 2;
+ margin-top: 5px;
+}
+
+.documentEditor .documentEditorSidebar .headerLabel {
+	margin-top: 20px;
+	margin-left: 55px;
+}
+
+.documentEditor .documentEditorSidebar .sidebarTabPanel {
+	margin-top: 20px;
+}
+
+.documentEditor .documentEditorSidebar .sidebarToggleButton {
+	position: absolute;
+	width: 37px;
+	bottom: 50%;
+}
+
+.documentEditor .documentEditorSidebar .sidebarEditorPanel .subHeaderLabel
+	{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	font-size: 18px;
+	text-align: left;
+	padding-bottom: 10px;
+	margin-top: 5px;
+	clear: both;
+}
+
+.documentEditor .documentEditorSidebar .sidebarEditorPanel .gwt-ListBox
+	{
+	min-height: 22px;
+	vertical-align: top;
+}
+
+.signEditor {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.signEditor .contentPanel {
+	padding-top: 0px;
+	outline: 0;
+}
+
+.signEditor .borderSlideableArrowPanel {
+	position: absolute;
+	background-color: #FFFFFF;
+	box-shadow: 0 5px 10px #888888;
+	z-index: 999;
+	/* Z-Index muss höher als der Index der Bearbeitungsarea sein und kleiner als der Index der ToolBar*/
+	border: 1px solid #444444;
+}
+
+.signEditor .holderPanelOfBorderSlideableArrowPanel .titleLabel {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	cursor: pointer;
+}
+
+.signEditor .borderSlideableArrowPanel, .signEditor .holderPanelOfBorderSlideableArrowPanel
+	{
+	-mox-box-sizing: border-box;
+	overflow: none;
+	z-index: 999;
+	/* Z-Index muss höher als der Index der Bearbeitungsarea sein und kleiner als der Index der ToolBar*/
+	width: 0px;
+	height: 0px;
+}
+
+.signEditor .leftOrRightBorderSlideableArrowPanel {
+	width: 290px;
+	height: 100%;
+}
+
+.signEditor .borderSlideableArrowPanelNorth img.arrow {
+	position: absolute !important;
+	top: 478px;
+}
+
+.signEditor img.arrow {
+	cursor: pointer;
+}
+
+.signEditor .borderSlideableArrowPanel .headerPanel {
+	cursor: pointer;
+}
+
+.signEditor .contentPanel .scrollPanel {
+	height: 100%;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+.signEditor .contentPanel .scrollPanel .signInfoContainer {
+	margin-top: 10px;
+}
+
+.signEditor .contentPanel .scrollPanel .signInfoContainer .signInfoLabel
+	{
+	padding-right: 30px;
+	font-size: 16px;
+	float: none;
+}
+
+.signEditor .contentPanel .scrollPanel .signInfoContainer .searchWordTextBox
+	{
+	font-size: 24px;
+	display: inline;
+	border: thin dotted;
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
+	width: 380px;
+}
+
+.signEditor .contentPanel .scrollPanel .signInfoContainer .searchWordLabel
+	{
+	font-size: 24px;
+}
+
+.signEditor .contentPanel .workSurfacePanel {
+	width: 100%;
+	overflow: hidden;
+	margin-top: 20px;
+}
+
+.signEditor .contentPanel .sidebar {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: relative;
+	background-color: #fff;
+	border-left: 1px solid #444;
+	box-shadow: 0px 5px 10px #888;
+	-moz-box-shadow: 0px 5px 10px #888;
+	-webkit-box-shadow: 0px 5px 10px #888;
+	width: 305px;
+	height: 100%;
+	float: right;
+	overflow: auto;
+	padding: 15px;
+	padding-top: 20px;
+}
+
+.signEditor .contentPanel .sidebar .button {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+}
+
+.signEditor .contentPanel .sidebar .header {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 15px;
+	width: 100%;
+}
+
+.signEditor .contentPanel .sidebar .sidebarEditorPanel, .signEditor .sidebar .sidebarExtraPanel
+	{
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	padding-top: 15px;
+	padding-bottom: 20px;
+	margin-top: 12px;
+}
+
+.signEditor .contentPanel .sidebar .sidebarExtraPanel {
+	height: auto;
+}
+
+.signEditor .contentPanel .sidebar .sidebarExtraPanel .activeCheeksButton
+	{
+	background: url('images/toolbarHover.png') repeat-x top;
+	background-size: 100%;
+}
+
+.signEditor .contentPanel .sidebar .sidebarEditor {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding-top: 40px;
+}
+
+.headerLabel {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: absolute;
+	width: 100%;
+	font-size: 20px;
+	text-align: left;
+	padding-bottom: 10px;
+	top: 0px;
+	left: 0px;
+}
+
+.signEditor .contentPanel .sidebar .sidebarEditor .subHeaderLabel {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	font-size: 14px;
+	text-align: left;
+	padding-bottom: 10px;
+	margin-top: 5px;
+	clear: both;
+}
+
+.signEditor .contentPanel .movementEditor .button, .signEditor .contentPanel .handEditor .button
+	{
+	display: inline-block;
+	width: 37px;
+	margin-left: 5px;
+}
+
+.signEditor .contentPanel .symbolKeyboard {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	overflow-y: visible;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #eee;
+	display: inline-block;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	width: 75px;
+	cursor: pointer;
+	padding: 10px;
+	text-align: center;
+	line-height: 18px;
+	float: left;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton.disabled {
+	opacity: 0.2;
+}
+
+.signEditor .contentPanel .movementEditor .symbolKeyboard div.symbolButton:last-child
+	{
+	margin-bottom: 60px;
+}
+
+.signEditor .contentPanel .headEditor .symbolKeyboard.headSymbolKeyboard div.symbolButton:last-child,
+	.signEditor .contentPanel .visemeEditor .symbolKeyboard div.symbolButton:last-child
+	{
+	margin-bottom: 150px;
+}
+
+.signEditor .contentPanel .headEditor .symbolKeyboard.headSymbolKeyboard.collectionsSymbolEditor div.symbolButton:last-child
+	{
+	margin-bottom: 200px;
+}
+
+.signEditor .contentPanel .symbolKeyboard .emptyField {
+	display: block;
+	min-width: 1px;
+	clear: both;
+	min-height: 1px;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton:hover {
+	background-color: #cbd9e5;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton.disabled:hover {
+	background-color: #eee;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton .label {
+	display: none;
+}
+
+.signEditor .contentPanel .symbolKeyboard .symbolButton .image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.signEditor .contentPanel .symbolKeyboard-handSymbols .symbolButton {
+	width: 45px;
+	height: 45px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-fingeralphabetSymbols .imageContainer {
+	display: flex;
+	align-items: center;
+	height: 50px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-fingeralphabetSymbols .symbolButton
+	{
+	width: 80px;
+	height: 80px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-movementSymbols .symbolButton
+	{
+	width: 65px;
+	height: 65px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-dynamicSymbols .symbolButton {
+	height: 30px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-bodySymbols .symbolButton {
+	height: 65px;
+}
+
+.signEditor .contentPanel .visemeEditor {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.signEditor .contentPanel .visemeEditor .textBox {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #eee;
+	text-align: center;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	border: none;
+	padding: 3px;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+.fingerAlphabetTextBox {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #eee;
+	text-align: center;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	border: none;
+	padding: 3px;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+.signEditor .contentPanel .visemeEditor .headSymbolKeyboard {
+	position: absolute;
+	top: 80px;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	margin-top:26px;
+}
+
+.signEditor .contentPanel .visemeEditor .symbolKeyboard-keyTextBox {
+	top: 125px;
+}
+
+.signEditor .contentPanel .symbolKeyboard-showLabels .symbolButton .label
+	{
+	display: block;
+	font-size: 14px;
+	height: 14px;
+	padding: 0px;
+}
+
+/* No, we havn't forgotten the space between the classes here! Everything's fine. ;) */
+.signEditor .contentPanel .headEditor .headSymbolKeyboard.headPostureSymbolEditor,
+	.signEditor .contentPanel .headEditor .headSymbolKeyboard.eyeSymbolEditor,
+	.signEditor .contentPanel .headEditor .headSymbolKeyboard.mouthSymbolEditor,
+	.signEditor .contentPanel .headEditor .headSymbolKeyboard.cheekSymbolEditor,
+	.signEditor .contentPanel .headEditor .headSymbolKeyboard.breathSymbolEditor
+	{
+	height: 80%;
+	float: left;
+}
+
+.signEditor .contentPanel .headEditor .headSymbolKeyboard.headPostureSymbolEditor .symbolButton
+	{
+	height: 70px;
+}
+
+.signInfoLabel {
+	font-size: 16px;
+	padding-right: 10px;
+	float: right;
+}
+
+#signsSignBookLabel {
+	text-align: right;
+	width: 220px;
+}
+
+.pagePanel {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-shadow: 0px 5px 10px #888;
+	-webkit-box-shadow: 0px 5px 10px #888;
+	box-shadow: 0px 5px 10px #888;
+	background-color: #fff;
+	border: 1px solid #444;
+	margin-bottom: 45px;
+}
+
+.newDocumentDialogBox .input {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	display: inline;
+	margin: 2px;
+	margin-bottom: 5px;
+}
+
+.newDocumentDialogBox .label {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	float: left;
+	display: inline;
+	margin: 2px;
+	margin-bottom: 5px;
+}
+
+.formDialogBox {
+	padding: 5px;
+}
+
+.formDialogBox .label {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	margin-right: 10px;
+}
+
+.formDialogBox .formContent {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+
+.formDialogBox .formContent input, .formDialogBox input {
+	width: 100%;
+}
+
+.formDialogBox input.formContent, .formDialogBox .formContent input {
+	padding: 0px;
+}
+
+.formDialogBox .buttons {
+	float: right;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+.formDialogBox.registerUserDialogBox .formContent {
+	box-sizing: initial;
+	-moz-box-sizing: initial;
+	-webkit-box-sizing: initial;
+	-ms-box-sizing: initial;
+}
+
+.newDocumentDialogBox .buttonPanel {
+	float: right;
+	margin: 2px;
+}
+
+.fileBrowser {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #fff;
+}
+
+.fileBrowser-documentManager, .signHistoryItemBrowser {
+	-moz-box-shadow: 0px 5px 10px #888;
+	-webkit-box-shadow: 0px 5px 10px #888;
+	box-shadow: 0px 5px 10px #888;
+	border: 1px solid #444;
+	margin-bottom: 45px;
+}
+
+.fileBrowser .titleBar, .signHistoryItemBrowser .titleBar {
+	border-bottom: 1px solid #000;
+}
+
+.fileBrowser .titleBar .label, .signHistoryItemBrowser .titleBar .label,
+	.signHistoryItemBrowser .signHistoryItemWidget .inset {
+	cursor: pointer;
+}
+
+.fileItemWidget, .searchItemWidget {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #fff;
+	outline: 0;
+}
+
+.fileItemWidget {
+	padding: 5px;
+}
+
+.fileItemWidget .inset {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.fileItemWidget-colored, .searchItemWidget-colored,
+	.signHistoryItemWidget-colored {
+	background-color: #efefef;
+}
+
+/* Put following styles here since they must override fileItemWidget-colored but not fileItemWidget-selected */
+.colorLabelPink {
+	background-color: #ffb2ff;
+}
+
+.colorLabelRed {
+	background-color: #ff0000;
+}
+
+.colorLabelOrange {
+	background-color: #ffbf00;
+}
+
+.colorLabelYellow {
+	background-color: #ffff00;
+}
+
+.colorLabelGreen {
+	background-color: #91ce50;
+}
+
+.colorLabelDarkGreen {
+	background-color: #00af4f;
+}
+
+.colorLabelBlue {
+	background-color: #00afef;
+}
+
+.colorLabelCyan {
+	background-color: #80ffff;
+}
+
+.colorLabelViolet {
+	background-color: #b970e4;
+}
+
+.searchListFolders{
+	background-color: #d1d1d1;
+    font-style: italic;
+}
+
+.fileItemWidget-selected, .searchItemWidget-selected,
+	.signHistoryItemWidget-selected {
+	background-color: #98bddb;
+}
+
+.signHistoryItemWidget-unsaved {
+	font-weight: bold;
+}
+
+.fileItemWidget .label {
+	overflow: hidden;
+	cursor: default;
+}
+
+.fileItemWidget .toolTip {
+	border: 1px solid #969798;
+	background-color: #FCF8BD;
+	z-index: 10000;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.filePathWidget {
+	border-bottom: 1px solid #444;
+	background-color: #efefef;
+}
+
+.filePathWidget .button {
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	background: url('images/filePathGradient.png') repeat-x top;
+	padding: 10px 6px 0px 0px;
+	text-align: left;
+	color: #000;
+	cursor: pointer;
+	cursor: hand;
+	overflow: visible;
+}
+
+.filePathWidget .button-hover {
+	background: url('images/filePathGradientHover.png') repeat-x top;
+}
+
+.roomInfoPanel, .searchPanel {
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #444;
+	vertical-align: top;
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-shadow: 0px 5px 10px #888;
+	-webkit-box-shadow: 0px 5px 10px #888;
+	box-shadow: 0px 5px 10px #888;
+	font-size: 13px;
+	position: fixed;
+}
+
+.roomInfoPanel .roomNameLabel {
+	font-size: 28px;
+	overflow: hidden;
+	margin-bottom: 50px;
+	word-wrap: break-word;
+}
+
+.searchPanel img.loadingImage {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.searchPanel button {
+	width: 105px;
+	margin-bottom: 10px;
+	margin-right: 8.5px;
+}
+
+.roomInfoPanel {
+	overflow: auto;
+}
+
+.roomInfoPanel .homeLabel, .searchPanel .searchLabel {
+	font-size: 36px;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.roomInfoPanel .roomIcon, .searchPanel .searchIcon {
+	margin-right: 16px;
+	float: left;
+}
+
+.roomInfoPanel .homeIcon {
+	margin-right: 36px;
+	float: left;
+}
+
+.roomInfoPanel .titleLabel {
+	margin-top: 20px;
+	font-size: 18px;
+	margin-bottom: 2px;
+	border-bottom: 1px solid #888;
+	padding-bottom: 3px;
+}
+
+.roomInfoPanel .subTitleLabel {
+	margin-top: 20px;
+	font-size: 14px;
+	margin-bottom: 2px;
+	padding-bottom: 3px;
+}
+
+.roomInfoPanel .contentLabel {
+	margin-top: 8px;
+	color: #444;
+}
+
+.roomInfoPanel .roomManagementPanel {
+	margin-top: 25px;
+}
+
+.roomInfoPanel .roomPolicyIcon {
+	margin-top: 12px;
+	margin-right: 20px;
+	float: left;
+}
+
+.roomInfoPanel .roomUserLabel {
+	overflow: hidden;
+	width: 60px;
+}
+
+.searchPanel {
+	overflow-y: hidden;
+}
+
+.searchPanel div.searchWidget {
+	margin-bottom: 10px;
+}
+
+.searchPanel .foundDocumentItemWidget {
+	padding: 8px 10px 8px 5px;
+	cursor: pointer;
+	word-break: break-word;
+}
+
+.searchList{
+	border: solid 1px #767676;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column; 
+}
+
+.searchPanel div .searchItemWidget:nth-of-type (1) {
+	border-top: thin solid #000;
+}
+
+.searchPanel div .searchItemWidget:nth-last-of-type (1) {
+	border-bottom: thin solid #000;
+}
+
+.dialogVPanel {
+	margin: 5px;
+}
+
+.toolBar {
+	width: 100%;
+	z-index: 1000;
+	background: url('images/toolbar.png') repeat top;
+	border-bottom: 1px solid #444;
+}
+
+.imageButton-hover {
+	background: url('images/toolbarHover.png') repeat top;
+}
+
+.shadow {
+	background: url('images/shadow.png') repeat-x top;
+	width: 100%;
+	height: 25px;
+	pointer-events: none;
+}
+
+.toolBarButton {
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	background: url('images/toolbar.png') repeat-x top;
+	border-right: 1px solid #aaa;
+	padding: 3px 5px 0px 7px;
+	height: 30px;
+	text-align: left;
+	color: #000;
+	cursor: hand;
+}
+
+.toolBarButton:hover {
+	cursor: pointer;
+}
+
+.headComponentManipulatorPanel {
+	margin-bottom: 7px;
+}
+
+div.headComponentManipulatorPanel .toolBarButton {
+	max-width: 37px;
+	margin-left: 5px;
+	display: inline-block;
+	float: inherit;
+	margin: 5px;
+	padding: 2px 0 2px 5px;
+}
+
+.toolBarButtonDisabled {
+	color: DarkGray;
+}
+
+.toolBarButtonDisabled:hover {
+	cursor: default;
+}
+
+.toolBarButton-down {
+	background: url('images/toolbarDown.png') repeat-x top;
+}
+
+.stickyToolBarButtonPressed {
+	background: url('images/toolbarDown.png') repeat-x top;
+}
+
+.toolBarButton-hover {
+	background: url('images/toolbarHover.png') repeat-x top;
+}
+
+.toolBarButton .label {
+	float: right;
+	margin-left: 5px;
+	margin-top: 2px;
+}
+
+.toolBarCheckbox {
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+	height: 25px;
+}
+
+.toolBarCheckbox label {
+	vertical-align: top;
+}
+
+.colorLabelChooser {
+	background-color: #fff;
+	padding: 5px 0px 0px 5px;
+	padding-bottom: 0px;
+	display: flex;
+	flex-direction: row;
+	width: 151px;
+	flex-wrap: wrap;
+}
+
+.colorLabelChooser .button {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+	cursor: hand;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+
+.signAlternativeButton {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.signEditButton {
+	float: right;
+	margin-top: 7px;
+}
+
+.freeTextTokenBoxWidget {
+	overflow-y: hidden;
+	overflow-x: visible;
+}
+
+.frameTokenBoxWidget {
+	margin-right: 6px;
+	position: relative;
+}
+
+.frameTokenBoxSelection {
+	position: relative;
+	border-width: 3px;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.frameTokenBoxSelection-selected {
+	position: relative;
+	border-width: 3px;
+	border-color: red;
+	border-style: double;
+}
+
+.snippet {
+	position: relative;
+	top: 3px;
+	border-width: 3px;
+	border-color: transparent;
+	border-style: double;
+}
+
+.snippet-selected {
+	position: relative;
+	top: 3px;
+	border-width: 3px;
+	border-color: red;
+	border-style: double;
+}
+
+.snippetSelection {
+	position: absolute;
+	border-width: 3px;
+	border-color: red;
+	border-style: double;
+	pointer-events: none;
+	z-index: 999;
+}
+
+.resizeButton {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	bottom: 50%;
+}
+
+.resizeButton-left {
+	left: 0px;
+}
+
+.resizeButton-right {
+	right: -7px;
+}
+
+.framePanel {
+	position: relative;
+	left: 2px;
+	top: 2px;
+	border-style: dashed;
+}
+
+.basicTokenBorder {
+	border: dashed #aaa 1px;
+}
+
+.imageTokenBoxPanel {
+	position: relative;
+}
+
+.imagePanel {
+	position: relative;
+}
+
+.resizeButtonPanel {
+	position: relative;
+}
+
+.freeTextLine {
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	background-color: #eee;
+	text-align: left;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	margin: 0px;
+	border: none;
+	/*Hide resize area*/
+	resize: none;
+	/*Hide scroll bar*/
+	overflow: hidden;
+	overflow-y: hidden;
+	padding-right: 2px;
+	float: left;
+}
+
+.contentExplanationLabel {
+	display: none;
+}
+
+.formTokenInput {
+	display: flex;
+}
+
+input.freeTextLineTemplate:invalid {
+	border-color: red;
+	border-width: 2px;
+	box-shadow: inherit;
+}
+
+input.freeTextLineTemplate:invalid + .contentExplanationLabel {
+	margin-left: 5px;
+	display: block;
+	color: red;
+	width: 400px;
+}
+
+.urlBoxHyperlink {
+	color: #0645ad !important;
+}
+
+.urlBoxHyperlink:hover {
+	text-decoration: underline;
+}
+
+.freeTextLineTemplate {
+	box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	background-color: #fff;
+	border: solid #aaa 1px;
+	text-align: left;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	margin: 0px;
+	/*Hide resize area*/
+	resize: none;
+	/*Hide scroll bar*/
+	overflow: hidden;
+	overflow-y: hidden;
+	padding-right: 2px;
+	float: left;
+}
+
+.formTokenWidget{
+	display: inline-flex !important;
+}
+
+.formDescriptionLabel{
+	font-weight: bold;
+	padding-left: 6px;
+}
+
+.tagDescriptionLabel{
+	font-weight: bold;
+	padding-left: 6px;
+}
+
+.hideSizeAnalyser {
+	text-align: left;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	visibility: hidden;
+}
+
+.underlined {
+	border-bottom-color: #aaa;
+}
+
+.notUnderlined {
+	border-bottom-color: #fff;
+}
+
+.freeTextUnderline {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #aaa;
+}
+
+.tokenBoxUnderline {
+	border-bottom-width: 1px;
+	border-bottom-style: dashed; 
+	padding-bottom: 2px;
+	margin-top: 5px;
+}
+
+.tokenBoxMargin {
+	padding-bottom: 2px;
+	margin-top: 5px;	
+}
+
+.textAreaPanel {
+	/*display: inline-block;*/
+}
+
+.textAreaHover{
+	cursor: default;
+	outline: none;
+}
+
+.slider {
+	display: inline-block;
+	margin-right: 1px;
+	padding-bottom: 0;
+	padding-top: 0;
+	width: 14px;
+	opacity: 1;
+	cursor: ew-resize;
+	float: right;
+	border-right-width: 1px;
+	border-right-style: dashed;
+	position: relative;
+	background-color: #eee;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+
+.fullScreenResizeCursorPanel {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	cursor: ew-resize;
+}
+
+.searchWordBox {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	background-color: #eee;
+	text-align: center;
+	white-space: pre;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	border: none;
+	padding-bottom: 0px;
+	margin: 0px;
+	resize: none;
+	overflow: hidden;
+	float: left;
+}
+
+.urlLabel {
+	margin-right: 6px;
+	align-self: center;
+}
+
+.urlBoxSidebar {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+    width: 100%;
+	background-color: white;
+	border-color: darkgrey;
+	border-width: initial;
+	text-align: left;
+	white-space: pre;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	padding-bottom: 0px;
+	margin: 0px;
+	resize: none;
+	overflow: hidden;
+	float: left;
+}
+
+.urlPanel {
+	display: flex;
+	height: 25px;
+	margin-bottom: 10px;
+}
+
+.urlBoxWidget {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	width: 100%;
+	background-color: #eee;
+	border: none;
+	text-align: left;
+	white-space: pre;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+	padding-bottom: 0px;
+	margin: 0px;
+	resize: none;
+	overflow: hidden;
+	float: left;
+}
+
+.videoPanel{
+	position: relative;
+}
+
+.videoTokenUploadProgressBar {
+	width: -webkit-fill-available;
+	width: -moz-available;
+	display: flex;
+	margin-left: 10px;
+	margin-right: 10px;
+	align-self: center;
+	z-index: 0;
+	height: 20px;
+	position: absolute;
+}
+
+.videoTokenUploadProgressPercentageText {
+	z-index: 1;
+	display: flex;
+	align-self: center;
+	width: -webkit-fill-available;
+	width: -moz-available;
+	justify-content: center;
+	font-size: xx-small;
+	position: absolute;
+}
+
+.videoTokenUploadProgressTextAbove {
+	font-size: large;
+	align-self: center;
+}
+.videoTokenUploadProgressTextUnder {
+	font-size: smaller;
+	align-self: center;
+	padding-left: 10px;
+    padding-right: 10px;
+}
+
+.videoTokenUploadProgressPanel {
+	display: flex;
+	height: 20px;
+}
+
+.progressWrapperPanel {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 100%;
+	float: left;
+}
+
+.videoRecorderDialogBoxProgressBar {
+	width: 80%;
+	display: flex;
+	margin-left: 15px;
+	margin-right: 15px;
+	align-self: center;
+	z-index: 0;
+	height: 20px;
+	position: absolute;
+}
+
+.videoRecorderDialogBoxProgressText {
+	z-index: 1;
+	display: flex;
+	align-self: center;
+	width: -webkit-fill-available;
+	width: -moz-available;
+	justify-content: center;
+	font-size: xx-small;
+	position: absolute;
+	margin-top: 5px;
+	margin-left: -10%;
+}
+
+.tokenBoxWidget {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+
+.tokenBoxWidget .progressIndicator {
+	background-image: url("images/loader.gif");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 70px, 70px;
+}
+
+.documentTable {
+	cursor: default;
+	text-align: left;
+}
+
+.onlyDocumentContainer, .commentContainer {
+	float: left;
+	margin-left: 5px;
+	width: 100%;
+}
+
+.commentTextBoxLabel {
+	text-align: left;
+}
+
+.loginPanel {
+	float: right;
+	max-width: 210px;
+	background-color: #FFFFFF;
+}
+
+.loginPanelErrorLabel {
+	font-size: 11px;
+	text-align: center;
+	color: red;
+}
+
+.loginPanel .textBoxWithWatermark {
+	width: 85px;
+	height: 20px;
+	border: 1px solid #aaa;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 12px;
+	vertical-align: top;
+	padding-left: 2px;
+	padding-right: 2px;
+	margin-right: 3px;
+	margin-top: 2px;
+}
+
+.toolBar .welcomeLabel {
+	float: right;
+	text-align: right;
+	vertical-align: top;
+	margin-right: 3px;
+	margin-top: 5px;
+	color: #aaa;
+}
+
+.watermark {
+	font-style: italic;
+	color: #444;
+}
+
+.passwordWatermark {
+	color: #444;
+}
+
+.footer {
+	position: absolute;
+	cursor: default;
+	color: #777;
+	font-family: 'Arial Unicode MS', Arial, sans-serif;
+	font-size: 13px;
+}
+
+.logo {
+	float: right;
+	margin-right: 6px;
+	margin-left: 8px;
+	margin-top: 2px;
+	color: Black;
+	cursor: hand;
+	cursor: pointer;
+}
+
+.modalDialogShadow {
+	background-color: #444;
+	opacity: 0.5;
+	filter: alpha(opacity =     50);
+}
+
+.signSelectorPanel {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.signSelectorPanel .gwt-DecoratorPanel .AlignmentPanel {
+	width: 32px;
+}
+
+.signSelectorPanel .gwt-DecoratorPanel .middleCenter {
+	background-color: white;
+}
+
+.signSelectorPanel .numberLabel {
+	font-size: 10px;
+	color: #777;
+}
+
+.selectionMarkupStyle {
+	width: 100%;
+	height:100%;
+	background-color: #B5D6FF;
+	opacity: 0.5;
+}
+
+.dashedLineHorizontal {
+	border-top: 2px dashed #ccc;
+	width: 100%;
+	height: 1px;
+}
+
+.dashedLineVertical {
+	border-left: 2px dashed #ccc;
+	width: 1px;
+	height: 100%;
+}
+
+.verticalSignBorderLine {
+	width: 2px;
+	background-color: #aaa;
+	height: 100%;
+}
+
+.arrowPanel {
+	z-index: 1000000;
+}
+
+.arrowPanel .arrow {
+	background-image: url('images/arrow.png');
+	width: 17px;
+	height: 17px;
+}
+
+.arrowPanel .arrow.down {
+	transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation= 1);
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.arrowPanel .arrow.left {
+	transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation= 2);
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.arrowPanel .arrow.right {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.arrowPanel .arrow.up {
+	transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation= 3);
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.arrowPopupPanel {
+	margin-right: 8px;
+	margin-left: 8px;
+}
+
+.imageButton div {
+	float: right;
+	padding-left: 2px;
+}
+
+
+.disabledImageAndTextButton {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.imageAndTextButton div {
+	padding-left: 6px;
+}
+
+.notFoundFrame {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 2px dashed #ccc;
+	background-image: url("images/cross.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 40px auto, 40px auto;
+	width: 80%;
+	height: 80%;
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+.hidden {
+	opacity: 0;
+	filter: alpha(opacity = 0);
+}
+
+::selection {
+	background-color: #b5d6ff;
+}
+
+::-moz-selection {
+	background-color: #b5d6ff;
+}
+
+.symbolImage {
+	border: 1px solid rgba(255, 255, 255, .0);
+}
+
+.symbolImage-selected {
+	border: 1px solid #f00;
+}
+
+.symbolImage-headSymbolFeatureSelected {
+	border: 1px solid #0f0;
+}
+
+.versionToolTip, div.gwt-PopupPanel.searchDocumentResultToolTip, div.gwt-PopupPanel.signItemWidgetCommentToolTip
+	{
+	border: 1px solid #969798;
+	background-color: #FCF8BD;
+	z-index: 10000;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div.gwt-PopupPanel.signItemWidgetCommentToolTip textarea {
+	background-color: #FCF8BD;
+	border: none;
+	resize: none;
+	color: #000;
+	width: 300px;
+	height: 85px;
+}
+
+.searchDocumentResultToolTip, .signItemWidgetCommentToolTip {
+	position: fixed;
+}
+
+.signTooltip-Image {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #FCF8BD;
+	border: 1px solid #969798;
+	padding: 6px;
+	z-index: 100000;
+}
+
+.signTooltip-Arrow {
+	width: 24px;
+	height: 24px;
+	background-color: transparent;
+	background-image: url();
+	background-position: left bottom;
+	background-repeat: no-repeat;
+	border: 0px;
+	padding: 0px;
+	z-index: 100000;
+}
+
+.signTooltip-Arrow-Up {
+	background-image: url('images/tooltip-arrow-up.png');
+	background-position: left bottom;
+}
+
+.signTooltip-Arrow-Right {
+	background-image: url('images/tooltip-arrow-right.png');
+	background-position: left top;
+}
+
+.signTooltip-Arrow-Down {
+	background-image: url('images/tooltip-arrow-down.png');
+	background-position: left top;
+}
+
+.signTooltip-Arrow-Left {
+	background-image: url('images/tooltip-arrow-left.png');
+	background-position: right top;
+}
+
+.signTooltipManager {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	border-spacing: 6px;
+	background-color: #CDD0D1;
+	border: 1px solid #969798;
+	padding: 0px;
+}
+
+.signTooltipManager-Image {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #FFFFFF;
+	border: 1px solid #969798;
+	padding: 0px;
+}
+
+.signTooltipManager-AlternateText {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: transparent;
+	color: #062447;
+	border: 1px solid #062447;
+	padding: 2px;
+	width: 220px;
+}
+
+.floatRight {
+	float: right;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.block {
+	display: block;
+}
+
+.reportContentButton {
+	background-color: transparent;
+	color: #f2f2f2;
+	border: none;
+}
+
+.reportContentButton:hover {
+	background-color: #808080;
+	color: #f2f2f2;
+	border: none;
+}
+
+.contextMenuePopupStyle {
+	opacity: 0.9;
+	background-color: #202020;
+	padding: 3px;
+}
+
+.flagButton {
+	margin-top: 15px;
+	margin-left: 15px;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+.tokenCountPanel {
+	vertical-align: top;
+    margin-left: 5px;
+    margin-top: 5px;
+    height: 25px;
+}
+
+.tokenCountPanel div {
+	float: left;
+}
+
+.tokenCountPanel div:nth-child(2) {
+	margin: 0 3px;
+}
+
+.fileUpload {
+	height: 0.1px;
+	width: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.videoUploadButton {
+	height: 15px;
+	font-size: 10px;
+	padding: 0;
+	margin-left: 5px;
+}
+.tokenCountPanel div:nth-child(3) {
+	margin: 0 3px;
+}
+
+
+.auto_suggest {
+    z-index: 20;
+    background-color: white;
+    padding: 10px;
+    width: 400px;
+    height: 230px;
+}
+
+.original-token-input {
+    width: 396px;
+    border: 1px solid #8496ba;
+    font-size: 12px;
+    font-family: Verdana;
+    padding: 4px 8px;
+}
+
+ul.token-input-list {
+    overflow: hidden;
+    border: 1px solid #aaa;
+    cursor: text;
+    font-family: Helvetica;
+    z-index: 999;
+    margin: 0;
+    background-color: #fff;
+    list-style-type: none;
+    padding: 0 6px !important;
+}
+
+.focusedTagToken {
+	outline: focus-ring-color auto 1px;
+    outline: -webkit-focus-ring-color auto 1px;
+    outline: -moz-focus-ring-color auto 1px;
+    outline: -o-focus-ring-color auto 1px;
+}
+
+ul.token-input-list li input {
+    border: 0;
+    width: 100px;
+    padding: 0;
+    background-color: white;
+    margin: 1px;
+}
+
+li.token-input-token {
+	display: flex;
+    margin: 1px;
+    padding: 1px;
+    background-color: #eff2f7;
+    cursor: default;
+    border: 1px solid #ccd5e4;
+    border-radius: 25%;
+    -moz-border-radius: 25%;
+    -webkit-border-radius: 25%;
+    float: left;
+}
+
+li.token-input-token p {
+    margin: 0;
+}
+
+.tagToken-label-x {
+    color: #a6b3cf;
+    margin-left: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tagTokentextArea{
+	resize: none;
+	border: none !important;
+	overflow: hidden;
+	height: 11px;
+	width: 100%;
+	padding: 0 6px;
+	outline-style: none !important;
+}
+
+li.token-input-input-token {
+    display:flex;
+}
+
+.videoRecorderCloseButton:hover{
+	font-weight: bold;
+}
+
+.recordButton{
+	margin: 5px 0px 5px 15px;
+	padding: 3px 5px;
+	text-decoration: none;
+	font-size: small;
+	cursor: pointer;
+	border: 1px outset #ccc;
+  	background-color: #e4e2e2c2;
+  	border-radius: 5px;
+	width: auto;
+  	text-align: center;
+}
+
+.recordVideo{
+	background-color: black;
+	margin: 5px 15px 15px 15px;
+}
+
+.videoRecorderDialogBox .Caption{
+	font-weight: bold;
+	padding-top: 7px !important;
+	padding-bottom: 7px !important;	
+	border-bottom: none !important;
+}
+
+.videoRecorderErrorPopupLabel{
+	margin: 0px 5px 10px 5px;
+	
+}
+
+.videoRecorderErrorPopupButton{
+	margin: auto;
+}
+
+.videoRecorderErrorPopupCloseButton{
+	margin: auto;
+	padding: 3px 5px;
+	text-decoration: none;
+	font-size: small;
+	cursor: pointer;
+	border: 1px outset #ccc;
+  	background-color: #e4e2e2c2;
+  	border-radius: 5px;
+	width: 100px;
+  	text-align: center;
+}

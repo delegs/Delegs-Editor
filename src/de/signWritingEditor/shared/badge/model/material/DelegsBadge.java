@@ -1,0 +1,92 @@
+package de.signWritingEditor.shared.badge.model.material;
+
+import static de.signWritingEditor.shared.i18n.I18NAccess.I18N;
+
+import java.util.Date;
+
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.i18n.shared.DefaultDateTimeFormatInfo;
+
+import de.badge.shared.i18n.BadgeI18NProvider;
+import de.badge.shared.model.domainValue.BadgeLevel;
+import de.badge.shared.model.domainValue.BadgeType;
+import de.badge.shared.model.material.Badge;
+import de.jsonParser.shared.infrastructure.JsonParser;
+
+public abstract class DelegsBadge extends Badge {
+
+	private static final long serialVersionUID = -4180170755035601904L;
+
+	protected static final String UNEARNED_BADGE_IMAGE = "data:image/png;base64,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";
+
+	private BadgeI18NProvider i18nProvider;
+
+	protected DateTimeFormat localeYearToMinutesFormat;
+	protected DateTimeFormat yearMonthAndDayFormat;
+
+	public DelegsBadge(String ownername, BadgeType badgeType, Date dateEarned) {
+		super(ownername, badgeType, dateEarned);
+		assert ownername != null : "Precondition failed: ownername != null";
+		assert badgeType != null : "Precondition failed: badgeType != null";
+
+		this.i18nProvider = I18N;
+		initDateFormatters();
+	}
+
+	@Deprecated
+	protected DelegsBadge() {
+		super();
+	}
+
+	public String getBadgeEarnedText() {
+		String result = null;
+		if (isEarned()) {
+			assert getDateEarned() != null : "Precondition failed: getDateEarned() != null";
+			result = i18nProvider.getEarnedOn() + " " + yearMonthAndDayFormat.format(getDateEarned());
+		} else {
+			result = i18nProvider.getNotYetEarned();
+		}
+
+		assert result != null : "Postcondition failed: result != null";
+		return result;
+	}
+
+	public String getNextLevelBadgeEarnedText() {
+		BadgeLevel currentLevel = getCurrentLevel();
+		assert currentLevel != BadgeLevel.GOLD : "Precondition failed: currentLevel != BadgeLevel.GOLD";
+
+		return i18nProvider.getNotYetEarned();
+	}
+
+	@Override
+	protected final String getUnearnedBadgeAsBase64() {
+		return UNEARNED_BADGE_IMAGE;
+	}
+
+	@Override
+	protected void setJson(JsonParser jsonParser) {
+		assert jsonParser != null : "Precondition failed: jsonParser != null";
+
+		super.setJson(jsonParser);
+
+		this.i18nProvider = I18N;
+		initDateFormatters();
+	}
+
+	private void initDateFormatters() {
+		// gwt has a bug, the DateTimeFormat in the shared package uses a client
+		// package. Therefore it is not runnable on server side without this
+		// hack
+		if (GWT.isClient()) {
+			localeYearToMinutesFormat = DateTimeFormat.getFormat(i18nProvider.getDateTimeFormat());
+			yearMonthAndDayFormat = DateTimeFormat.getFormat(i18nProvider.getDateFormat());
+		} else {
+			DefaultDateTimeFormatInfo info = new DefaultDateTimeFormatInfo();
+			localeYearToMinutesFormat = new DateTimeFormat(i18nProvider.getDateTimeFormat(), info) {
+			};
+			yearMonthAndDayFormat = new DateTimeFormat(i18nProvider.getDateFormat(), info) {
+			};
+		}
+	}
+}

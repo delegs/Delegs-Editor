@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE spml SYSTEM "http://www.signpuddle.net/spml_1.6.dtd">
+<spml root="http://www.signbank.org/signpuddle1.6" type="sgn" puddle="53" cdt="1175189090" mdt="1311002153" nextid="16245">
+
+  <term><![CDATA[Wörterbuch DE]]></term>
+  <png>iVBORw0KGgoAAAANSUhEUgAAACQAAAA8CAMAAAA5W+hcAAAABGdBTUEAANbY1E9YMgAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAVUExURf/////MzP+ZM/8AAMzM/wAz/wAAAAmvLSgAAACHSURBVHja7NNLDoAgDATQinTuf2TFgFiln8SVkVm4MC/YQSD4yTQRYfUy0YGSl4lS9NDlxQlzQeTkLwgBBIEwRAig+o+CK1UKa6b2gNUOBb9E989de2iDi7baFogX2mYOEYVQLyTuiXZU0GVdX0O9poXap8lFxkznyM92H7x3HEJudhTIJsAAE0IUTfEyH8AAAAAASUVORK5CYII=</png>
+
+<entry id="1000001272" cdt="1175189257" mdt="1211101178" usr="">
+  <term>M563x577S35d00437x483S34700468x483S36100499x482S35d00527x483S14c48464x546S14c02488x552S20600481x535</term>
+  <term><![CDATA[Test]]></term>
+  <text><![CDATA[Prüfverfahren]]></text>
+  <src><![CDATA[SW]]></src>
+</entry>
+
+<entry id="1000003" cdt="1175189090" mdt="1262077630" usr="">
+  <term>M598x579S27116513x538S2f700445x540S16d01461x495S23603451x518S35000516x483S34c00544x484S1dc20574x513S1dc28495x513S27102565x539S35d04420x480</term>
+  <term><![CDATA[Cocktailparty]]></term>
+</entry>
+
+<entry id="1000001039" cdt="1175189208" mdt="1236425560" usr="">
+  <term>M547x580S14c01487x549S14c09470x553S26606517x557S26612432x558S36100453x482S34c00481x483S34600511x483 M500x500 M500x500 M500x500 M500x500 M513x519S15312394x585S22a00377x589</term>
+  <term><![CDATA[Zaunkönig]]></term>
+  <text><![CDATA[Singvogel]]></text>
+  <src><![CDATA[SW]]></src>
+</entry>
+
+<entry id="1000005764" cdt="1222504946" mdt="1222504946" usr="">
+  <term>S38a00464x490</term>
+  <term><![CDATA[Doppelpunkt]]></term>
+  <src><![CDATA[SW]]></src>
+</entry>
+
+</spml>
